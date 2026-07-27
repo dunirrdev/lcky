@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCKY | Zero Skill All Luck - Call of Dragons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { background-color: #0f172a; color: #e2e8f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .gold-text { color: #fbbf24; }
+        .emerald-accent { border-color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
+        .hidden-section { display: none; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="bg-slate-900 border-b border-slate-800 p-4 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold gold-text">LCKY <span class="text-sm text-slate-400 font-normal">| Zero Skill All Luck</span></h1>
+            <div class="space-x-4 text-sm">
+                <a href="#about" class="hover:text-emerald-400 transition">About</a>
+                <a href="#apply" class="hover:text-emerald-400 transition">Migration App</a>
+                <button id="nav-login-btn" onclick="toggleLoginModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded transition">Member Login</button>
+                <button id="nav-logout-btn" onclick="handleLogout()" class="hidden bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="about" class="text-center py-20 px-4 bg-gradient-to-b from-slate-900 to-slate-800">
+        <h2 class="text-5xl font-extrabold gold-text mb-4">Zero Skill. All Luck.</h2>
+        <p class="text-xl text-slate-300 max-w-2xl mx-auto mb-8">Welcome to LCKY. We might claim it’s all luck, but our KvK results say otherwise. Fortune favors the bold, the organized, and the loyal.</p>
+        <a href="#apply" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition emerald-accent">Apply for Server Migration</a>
+    </header>
+
+    <!-- Application Form -->
+    <section id="apply" class="max-w-3xl mx-auto py-16 px-4">
+        <h3 class="text-3xl font-bold gold-text mb-6 text-center">Server Migration Application</h3>
+        <form id="migration-form" class="bg-slate-800 p-8 rounded-lg border border-slate-700 space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="ign" placeholder="In-Game Name (IGN)" required class="bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-emerald-500 outline-none">
+                <input type="text" id="server" placeholder="Current Server #" required class="bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-emerald-500 outline-none">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="discord" placeholder="Discord Username" required class="bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-emerald-500 outline-none">
+                <input type="text" id="hours" placeholder="Primary Play Hours (e.g., 8PM-12AM EST)" required class="bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-emerald-500 outline-none">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="number" id="power" placeholder="Total Power" required class="bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-emerald-500 outline-none">
+                <input type="number" id="vip" placeholder="VIP Level" required class="bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-emerald-500 outline-none">
+            </div>
+            <input type="text" id="heroes" placeholder="Top 5 Heroes (e.g., George 5-5-5-1, Kylen 5-5-4-1)" required class="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-emerald-500 outline-none">
+            <textarea id="reason" placeholder="Why do you want to join LCKY?" rows="3" required class="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-emerald-500 outline-none"></textarea>
+            
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded transition">Submit Application</button>
+            <p id="form-status" class="text-center text-emerald-400 hidden">✅ Application submitted successfully! Check your Discord for further instructions.</p>
+        </form>
+    </section>
+
+    <!-- MEMBER DASHBOARD (Hidden by default, shown after Discord Login) -->
+    <section id="member-dashboard" class="hidden-section max-w-6xl mx-auto py-16 px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h3 class="text-3xl font-bold gold-text">Alliance Member Dashboard</h3>
+            <div class="flex items-center space-x-3">
+                <img id="user-avatar" src="" alt="Discord Avatar" class="w-10 h-10 rounded-full border-2 border-emerald-500">
+                <span id="user-name" class="font-semibold text-emerald-400"></span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Upcoming Events -->
+            <div class="bg-slate-800 p-6 rounded-lg border border-slate-700">
+                <h4 class="text-xl font-bold text-white mb-4">📅 Upcoming Events</h4>
+                <ul class="space-y-3 text-slate-300">
+                    <li class="flex justify-between"><span>Sanctum War</span> <span class="text-emerald-400">Fri 8:00 PM EST</span></li>
+                    <li class="flex justify-between"><span>Beast Chaser</span> <span class="text-emerald-400">Sat 12:00 PM EST</span></li>
+                    <li class="flex justify-between"><span>KvK Teleport</span> <span class="text-red-400">Sun 6:00 PM EST</span></li>
+                </ul>
+            </div>
+
+            <!-- Quick Links / Resources -->
+            <div class="bg-slate-800 p-6 rounded-lg border border-slate-700">
+                <h4 class="text-xl font-bold text-white mb-4">📚 Resources</h4>
+                <ul class="space-y-3">
+                    <li><a href="#" class="text-blue-400 hover:underline">📜 LCKY Alliance Rules</a></li>
+                    <li><a href="#" class="text-blue-400 hover:underline">⚔️ KvK Battle Assignments</a></li>
+                    <li><a href="#" class="text-blue-400 hover:underline">🐉 Dragon Boss Schedule</a></li>
+                </ul>
+            </div>
+
+            <!-- Application Status (For internal tracking or new members) -->
+            <div class="bg-slate-800 p-6 rounded-lg border border-slate-700">
+                <h4 class="text-xl font-bold text-white mb-4">🛡️ Your Status</h4>
+                <div class="bg-emerald-900/30 border border-emerald-700 p-4 rounded text-emerald-300">
+                    <p class="font-bold">Active Member</p>
+                    <p class="text-sm mt-1">DKP Points: 150 | Attendance: 95%</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="hidden-section fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+        <div class="bg-slate-800 p-8 rounded-lg border border-slate-700 max-w-md w-full text-center">
+            <h3 class="text-2xl font-bold gold-text mb-2">Alliance Member Login</h3>
+            <p class="text-slate-400 mb-6">Access Roster, Strategies, and Event Schedules.</p>
+            <button onclick="handleDiscordLogin()" class="w-full bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold py-3 rounded flex items-center justify-center space-x-2 transition">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                <span>Login with Discord</span>
+            </button>
+            <button onclick="toggleLoginModal()" class="mt-4 text-slate-500 hover:text-white text-sm">Cancel</button>
+        </div>
+    </div>
+
+    <footer class="text-center py-8 text-slate-500 text-sm border-t border-slate-800 mt-12">
+        <p>© 2026 LCKY Alliance. Not affiliated with Farlight Games.</p>
+        <p class="mt-2 gold-text">Zero Skill All Luck. May the RNG be ever in your favor.</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // ==========================================================
+        // 1. CONFIGURATION (REPLACE THESE WITH YOUR ACTUAL KEYS)
+        // ==========================================================
+        const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+        const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY_HERE';
+        const DISCORD_WEBHOOK_URL = 'YOUR_DISCORD_WEBHOOK_URL_HERE';
+
+        // Initialize Supabase
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // ==========================================================
+        // 2. FORM SUBMISSION (Sends to Discord Webhook + Supabase)
+        // ==========================================================
+        document.getElementById('migration-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.textContent = 'Submitting...';
+            btn.disabled = true;
+
+            const formData = {
+                ign: document.getElementById('ign').value,
+                server: document.getElementById('server').value,
+                discord: document.getElementById('discord').value,
+                hours: document.getElementById('hours').value,
+                power: document.getElementById('power').value,
+                vip: document.getElementById('vip').value,
+                heroes: document.getElementById('heroes').value,
+                reason: document.getElementById('reason').value,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // A. Send to Supabase Database
+                const { error: dbError } = await supabase.from('applications').insert([formData]);
+                
+                // B. Send to Discord Webhook (Instant R4/R5 Notification)
+                const discordPayload = {
+                    embeds: [{
+                        title: "🎯 New Migration Application",
+                        color: 16766720, // Emerald green
+                        fields: [
+                            { name: "IGN", value: formData.ign, inline: true },
+                            { name: "Server", value: formData.server, inline: true },
+                            { name: "Power", value: formData.power, inline: true },
+                            { name: "VIP", value: formData.vip, inline: true },
+                            { name: "Discord", value: formData.discord, inline: true },
+                            { name: "Play Hours", value: formData.hours, inline: true },
+                            { name: "Top Heroes", value: formData.heroes },
+                            { name: "Reason", value: formData.reason }
+                        ],
+                        footer: { text: "LCKY Application Bot" }
+                    }]
+                };
+                await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(discordPayload)
+                });
+
+                // Success UI
+                document.getElementById('form-status').classList.remove('hidden');
+                e.target.reset();
+            } catch (err) {
+                console.error("Submission error:", err);
+                alert("There was an error submitting your application. Please try again or contact an R4 on Discord.");
+            } finally {
+                btn.textContent = 'Submit Application';
+                btn.disabled = false;
+            }
+        });
+
+        // ==========================================================
+        // 3. DISCORD AUTH & DASHBOARD LOGIC
+        // ==========================================================
+        function toggleLoginModal() {
+            const modal = document.getElementById('login-modal');
+            modal.classList.toggle('hidden-section');
+        }
+
+        async function handleDiscordLogin() {
+            // This triggers Supabase's built-in Discord OAuth flow
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: 'discord',
+                options: {
+                    redirectTo: window.location.origin + window.location.pathname // Returns to this page after login
+                }
+            });
+            if (error) console.error("Login error:", error);
+        }
+
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                // User is logged in! Show dashboard, hide login button
+                document.getElementById('nav-login-btn').classList.add('hidden');
+                document.getElementById('nav-logout-btn').classList.remove('hidden');
+                document.getElementById('member-dashboard').classList.remove('hidden-section');
+                
+                // Populate user info
+                document.getElementById('user-name').textContent = session.user.user_metadata.user_name || 'LCKY Member';
+                document.getElementById('user-avatar').src = session.user.user_metadata.avatar_url || 'https://cdn.discordapp.com/embed/avatars/0.png';
+            }
+        }
+
+        async function handleLogout() {
+            await supabase.auth.signOut();
+            window.location.reload();
+        }
+
+        // Check login status on page load
+        checkSession();
+    </script>
+</body>
+</html>
