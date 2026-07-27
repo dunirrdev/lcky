@@ -32,68 +32,108 @@
             pointer-events: none; z-index: 0;
         }
 
-        /* ANIMATED FIRE LOGO CSS */
+        /* ANIMATED LUCKY LOGO CSS */
         .fire-logo-container {
             position: relative;
-            width: 200px;
-            height: 200px;
+            width: 280px;
+            height: 280px;
             margin: 0 auto 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
         .fire-logo {
             position: relative;
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 0 30px rgba(255, 102, 0, 0.6));
-            animation: logoFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 40px rgba(57, 255, 20, 0.5));
+            animation: logoFloat 4s ease-in-out infinite;
         }
+
         .fire-svg { width: 100%; height: 100%; }
-        .flame {
-            fill: url(#fireGradient);
-            animation: flamePulse 0.5s ease-in-out infinite alternate;
+
+        .clover-leaf {
+            fill: url(#cloverGradient);
+            animation: leafPulse 2s ease-in-out infinite alternate;
+            transform-origin: center;
         }
-        .flame-inner {
-            fill: url(#innerFireGradient);
-            animation: flameFlicker 0.3s ease-in-out infinite alternate;
+        .clover-leaf:nth-child(1) { animation-delay: 0s; }
+        .clover-leaf:nth-child(2) { animation-delay: 0.3s; }
+        .clover-leaf:nth-child(3) { animation-delay: 0.6s; }
+        .clover-leaf:nth-child(4) { animation-delay: 0.9s; }
+
+        .clover-center {
+            fill: url(#centerGradient);
+            animation: centerGlow 1.5s ease-in-out infinite alternate;
         }
+
+        .dice {
+            fill: url(#diceGradient);
+            stroke: #fff700;
+            stroke-width: 1;
+            animation: diceFloat 3s ease-in-out infinite;
+        }
+        .dice:nth-of-type(2) { animation-delay: 1s; }
+
+        .dice-dot {
+            fill: #fff;
+            animation: dotPulse 1s ease-in-out infinite alternate;
+        }
+
         .spark {
             fill: #fff700;
-            animation: sparkRise 2s ease-out infinite;
+            animation: sparkRise 2.5s ease-out infinite;
         }
-        .spark:nth-child(2) { animation-delay: 0.5s; }
-        .spark:nth-child(3) { animation-delay: 1s; }
-        .spark:nth-child(4) { animation-delay: 1.5s; }
+        .spark:nth-child(odd) { fill: #39ff14; }
+
+        .gold-coin {
+            fill: url(#coinGradient);
+            animation: coinSpin 4s linear infinite;
+            transform-origin: center;
+        }
 
         @keyframes logoFloat {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
         }
-        @keyframes flamePulse {
-            0% { opacity: 0.8; transform: scale(1); filter: brightness(1); }
-            100% { opacity: 1; transform: scale(1.05); filter: brightness(1.3); }
+        @keyframes leafPulse {
+            0% { opacity: 0.85; transform: scale(1); filter: brightness(1); }
+            100% { opacity: 1; transform: scale(1.05); filter: brightness(1.4); }
         }
-        @keyframes flameFlicker {
-            0% { opacity: 0.6; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1.05); }
+        @keyframes centerGlow {
+            0% { opacity: 0.7; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+        @keyframes diceFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        @keyframes dotPulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
         }
         @keyframes sparkRise {
             0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-100px) scale(0); }
+            100% { opacity: 0; transform: translateY(-120px) scale(0); }
         }
+        @keyframes coinSpin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
         .fire-glow {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 150%; height: 150%;
-            background: radial-gradient(circle, rgba(255, 102, 0, 0.4) 0%, transparent 70%);
-            animation: glowPulse 2s ease-in-out infinite;
+            width: 140%; height: 140%;
+            background: radial-gradient(circle, rgba(57, 255, 20, 0.4) 0%, rgba(255, 247, 0, 0.2) 40%, transparent 70%);
+            animation: glowPulse 2.5s ease-in-out infinite;
             pointer-events: none;
         }
         @keyframes glowPulse {
             0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
         }
 
         .progress-bar {
@@ -245,34 +285,80 @@
     </div>
 
     <section class="hero" id="about">
-        <!-- ANIMATED FIRE LOGO -->
+        <!-- ANIMATED LUCKY LOGO - Four Leaf Clover with Dice -->
         <div class="fire-logo-container">
             <div class="fire-glow"></div>
             <div class="fire-logo">
-                <svg class="fire-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <svg class="fire-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="fireGradient" x1="0%" y1="100%" x2="0%" y2="0%">
-                            <stop offset="0%" style="stop-color:#ff3300;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#ff6600;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#ffaa00;stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="innerFireGradient" x1="0%" y1="100%" x2="0%" y2="0%">
-                            <stop offset="0%" style="stop-color:#ffaa00;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#ffcc00;stop-opacity:1" />
+                        <linearGradient id="cloverGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#39ff14;stop-opacity:1" />
                             <stop offset="100%" style="stop-color:#fff700;stop-opacity:1" />
                         </linearGradient>
+                        <radialGradient id="centerGradient" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" style="stop-color:#fff700;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#39ff14;stop-opacity:0.8" />
+                        </radialGradient>
+                        <linearGradient id="diceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#333;stop-opacity:1" />
+                        </linearGradient>
+                        <radialGradient id="coinGradient" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" style="stop-color:#fff700;stop-opacity:1" />
+                            <stop offset="70%" style="stop-color:#fbbf24;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
+                        </radialGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
                     </defs>
-                    <path class="flame" d="M100 10 L100 40 L70 40 L70 70 L40 70 L40 100 L70 100 L70 190 L100 190 L100 100 L130 100 L130 70 L160 70 L160 40 L130 40 L130 10 Z M100 50 L85 50 L85 85 L85 175 L100 175 L100 85 L100 50 Z M115 50 L115 85 L115 175 L100 175 L100 85 L115 50 Z"/>
-                    <path class="flame" d="M40 70 L25 40 L40 55 Z"/>
-                    <path class="flame" d="M70 40 L70 25 L85 55 Z"/>
-                    <path class="flame" d="M100 10 L100 25 L100 40 Z"/>
-                    <path class="flame" d="M130 40 L115 55 L130 25 Z"/>
-                    <path class="flame" d="M160 70 L175 55 L160 40 Z"/>
-                    <path class="flame-inner" d="M85 60 L85 90 L85 165 L100 165 L100 90 L100 60 Z M115 60 L115 90 L115 165 L100 165 L100 90 L115 60 Z"/>
-                    <circle class="spark" cx="100" cy="30" r="2"/>
-                    <circle class="spark" cx="85" cy="35" r="1.5"/>
-                    <circle class="spark" cx="115" cy="35" r="1.5"/>
-                    <circle class="spark" cx="100" cy="20" r="1"/>
+                    
+                    <!-- FOUR LEAF CLOVER -->
+                    <path class="clover-leaf" d="M150 150 C120 120 80 100 70 130 C60 160 100 170 130 160 C140 155 145 152 150 150 Z" filter="url(#glow)"/>
+                    <path class="clover-leaf" d="M150 150 C180 120 220 100 230 130 C240 160 200 170 170 160 C160 155 155 152 150 150 Z" filter="url(#glow)"/>
+                    <path class="clover-leaf" d="M150 150 C120 180 100 220 130 230 C160 240 170 200 160 170 C155 160 152 155 150 150 Z" filter="url(#glow)"/>
+                    <path class="clover-leaf" d="M150 150 C180 180 200 220 170 230 C140 240 130 200 140 170 C145 160 148 155 150 150 Z" filter="url(#glow)"/>
+                    
+                    <circle class="clover-center" cx="150" cy="150" r="15" filter="url(#glow)"/>
+                    
+                    <path class="clover-leaf" d="M150 165 C150 200 145 230 140 260 C145 260 150 255 150 250 C155 255 160 260 165 260 C160 230 155 200 150 165 Z" filter="url(#glow)"/>
+                    
+                    <!-- DICE -->
+                    <g class="dice" transform="translate(60, 60)">
+                        <rect x="0" y="0" width="40" height="40" rx="5" filter="url(#glow)"/>
+                        <circle class="dice-dot" cx="12" cy="12" r="3"/>
+                        <circle class="dice-dot" cx="28" cy="12" r="3"/>
+                        <circle class="dice-dot" cx="20" cy="20" r="3"/>
+                        <circle class="dice-dot" cx="12" cy="28" r="3"/>
+                        <circle class="dice-dot" cx="28" cy="28" r="3"/>
+                    </g>
+                    
+                    <g class="dice" transform="translate(200, 70)">
+                        <rect x="0" y="0" width="35" height="35" rx="4" filter="url(#glow)"/>
+                        <circle class="dice-dot" cx="10" cy="10" r="2.5"/>
+                        <circle class="dice-dot" cx="25" cy="10" r="2.5"/>
+                        <circle class="dice-dot" cx="10" cy="25" r="2.5"/>
+                        <circle class="dice-dot" cx="25" cy="25" r="2.5"/>
+                    </g>
+                    
+                    <!-- GOLD COINS -->
+                    <ellipse class="gold-coin" cx="80" cy="220" rx="15" ry="20" filter="url(#glow)"/>
+                    <ellipse class="gold-coin" cx="220" cy="210" rx="12" ry="18" filter="url(#glow)"/>
+                    
+                    <!-- SPARKS -->
+                    <circle class="spark" cx="150" cy="100" r="2"/>
+                    <circle class="spark" cx="100" cy="130" r="1.5"/>
+                    <circle class="spark" cx="200" cy="130" r="1.5"/>
+                    <circle class="spark" cx="130" cy="180" r="2"/>
+                    <circle class="spark" cx="170" cy="180" r="1.5"/>
+                    <circle class="spark" cx="150" cy="200" r="1"/>
+                    <circle class="spark" cx="90" cy="170" r="1.5"/>
+                    <circle class="spark" cx="210" cy="170" r="1.5"/>
                 </svg>
             </div>
         </div>
