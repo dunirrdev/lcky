@@ -1,4 +1,4 @@
-// server.js (Backend em Node.js)
+// server.js
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -8,16 +8,17 @@ const app = express();
 app.use(cors()); // Permite que seu site no GitHub Pages chame este servidor
 app.use(express.json());
 
-// Cache para evitar banimento de IP por muitas requisições à Farlight
-// Guarda os dados por 3600 segundos (1 hora)
+// Cache para evitar banimento de IP (guarda por 1 hora)
 const cache = new NodeCache({ stdTTL: 3600 });
 
-// ⚠️ SUBSTITUA ESTES VALORES PELOS QUE VOCÊ DESCOBRIU NO CHARLES PROXY
+// =================================================================
+// ⚠️ CONFIGURAÇÃO DA API REAL DO JOGO (Preencher depois)
+// =================================================================
 const COD_API_URL = 'https://api-lb.callofdragons.com/v1/lord/detail'; // URL Exemplo
 const API_HEADERS = {
     'User-Agent': 'CallOfDragons/1.0 (Android)',
     'x-device-id': 'SEU_DEVICE_ID_AQUI',
-    'Authorization': 'Bearer SEU_TOKEN_AQUI' // Se houver
+    // 'Authorization': 'Bearer SEU_TOKEN_AQUI' 
 };
 
 app.get('/api/lord/:lordId', async (req, res) => {
@@ -30,28 +31,47 @@ app.get('/api/lord/:lordId', async (req, res) => {
     }
 
     try {
-        // 2. Se não tiver no cache, busca na "API" do jogo
-        // Nota: A estrutura exata do payload depende do que você interceptou
+        // =========================================================
+        // MODO DE TESTE (MOCK) - Remova este bloco quando tiver a API real
+        // =========================================================
+        if (lordId === '12345678' || true) { // '|| true' força o modo de teste sempre
+            const mockData = {
+                username: "TestLord_" + lordId,
+                power: 150000000 + Math.floor(Math.random() * 50000000),
+                kingdom: "Kingdom 2045",
+                alliance: "LCKY - Zero Skill All Luck",
+                kills: 85000000,
+                avatar: "T"
+            };
+            
+            // Simula um delay de rede de 1 segundo
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            cache.set(lordId, mockData);
+            return res.json({ source: 'mock_test', data: mockData });
+        }
+        // =========================================================
+
+        /* 
+        // CÓDIGO REAL (Descomente isso quando tiver os dados do Charles Proxy)
         const response = await axios.post(COD_API_URL, {
             uid: lordId
         }, {
             headers: API_HEADERS
         });
 
-        // 3. Formata os dados para ficar bonito no seu site
         const lordData = {
             username: response.data.lord_name || 'Unknown',
             power: response.data.power || 0,
             kingdom: response.data.kingdom_id || 'Unknown',
             alliance: response.data.alliance_name || 'None',
             kills: response.data.kill_count || 0,
-            avatar: response.data.avatar_id || 'default'
+            avatar: response.data.avatar_id || '?'
         };
 
-        // 4. Salva no cache
         cache.set(lordId, lordData);
-
-        res.json({ source: 'api', data: lordData });
+        res.json({ source: 'live_api', data: lordData });
+        */
 
     } catch (error) {
         console.error('Erro ao buscar dados:', error.message);
@@ -59,7 +79,8 @@ app.get('/api/lord/:lordId', async (req, res) => {
     }
 });
 
+// O Render exige que escutemos a porta que ele nos dá via process.env.PORT
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+    console.log(`✅ Servidor LCKY Tracker rodando na porta ${PORT}`);
 });
