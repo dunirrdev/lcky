@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | LCKY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050a07;
+            --bg-card: #0d1f15;
+            --primary: #00ff88;
+            --secondary: #00cc6a;
+            --text-main: #ffffff;
+            --text-muted: #a0bfb0;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(5, 10, 7, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+        .logo span { color: var(--primary); }
+
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--primary); }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .profile-header {
+            background: var(--bg-card);
+            border: 2px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 4rem;
+            border: 4px solid rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .profile-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-role {
+            display: inline-block;
+            padding: 8px 25px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 25px;
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .profile-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 15px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        @media (max-width: 768px) {
+            .profile-grid { grid-template-columns: 1fr; }
+            .profile-header { padding: 30px 20px; }
+            .profile-name { font-size: 1.8rem; }
+            .nav-links { display: none; }
+        }
+
+        .profile-section {
+            background: var(--bg-card);
+            border: 2px solid rgba(0, 255, 136, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        .stat-row:last-child { border-bottom: none; }
+        .stat-label { color: var(--text-muted); }
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .badge-item {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .badge-item:hover {
+            background: rgba(0, 255, 136, 0.1);
+            transform: translateY(-3px);
+        }
+        .badge-item.locked {
+            opacity: 0.4;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .badge-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .badge-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        .badge-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .lucky-points {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 106, 0.1));
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .lp-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: var(--primary);
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+        .lp-label {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        .back-btn:hover {
+            background: var(--primary);
+            color: #050a07;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">LCKY<span>.GG</span></a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="members.html">Members</a>
+                <a href="leaderboard.html">Leaderboard</a>
+                <a href="apply.html">Apply</a>
+                <a href="https://discord.gg/lcky" target="_blank">Discord</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="members.html" class="back-btn">← Back to Members</a>
+
+        <div class="profile-header">
+            <div class="profile-avatar" id="profileAvatar"></div>
+            <h1 class="profile-name" id="profileName">Loading...</h1>
+            <div class="profile-role" id="profileRole">Member</div>
+            <div class="profile-status">
+                <span class="status-dot"></span>
+                <span id="profileStatus">Active</span>
+            </div>
+        </div>
+
+        <div class="lucky-points">
+            <div class="lp-value" id="luckyPoints">0</div>
+            <div class="lp-label">🍀 Lucky Points</div>
+        </div>
+
+        <div class="profile-grid">
+            <div class="profile-section">
+                <h2 class="section-title"> Account Info</h2>
+                <div class="stat-row">
+                    <span class="stat-label">Lord Name</span>
+                    <span class="stat-value" id="lordName">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Lord ID</span>
+                    <span class="stat-value" id="lordId">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Discord</span>
+                    <span class="stat-value" id="discord">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Faction</span>
+                    <span class="stat-value" id="faction">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Joined</span>
+                    <span class="stat-value" id="joinedDate">-</span>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h2 class="section-title">📊 Game Stats</h2>
+                <div class="stat-row">
+                    <span class="stat-label">Power</span>
+                    <span class="stat-value" id="power">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Units Killed</span>
+                    <span class="stat-value" id="unitsKilled">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Units Dead</span>
+                    <span class="stat-value" id="unitsDead">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Units Healed</span>
+                    <span class="stat-value" id="unitsHealed">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Merits (Last Season)</span>
+                    <span class="stat-value" id="merits">-</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-section" style="margin-bottom: 30px;">
+            <h2 class="section-title">🏆 Achievements</h2>
+            <div class="badges-grid" id="achievementsGrid">
+                <!-- Achievements loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="data/members.js"></script>
+    <script>
+        // Get username from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('user');
+
+        // Find member
+        const member = members.find(m => m.username === username);
+
+        if (!member) {
+            document.body.innerHTML = `
+                <div style="text-align: center; padding: 100px; color: var(--text-muted);">
+                    <h1 style="font-family: 'Orbitron', sans-serif; font-size: 3rem; margin-bottom: 20px;">Member Not Found</h1>
+                    <a href="members.html" style="color: var(--primary); text-decoration: none; font-size: 1.2rem;">← Back to Members</a>
+                </div>
+            `;
+        } else {
+            // Update profile
+            document.getElementById('profileAvatar').textContent = member.avatar;
+            document.getElementById('profileName').textContent = member.username;
+            document.getElementById('profileRole').textContent = member.role;
+            document.getElementById('profileStatus').textContent = member.status === 'approved' ? 'Approved Member' : member.status === 'pending' ? 'Pending Approval' : 'Founder';
+            document.getElementById('luckyPoints').textContent = member.luckyPoints;
+            
+            document.getElementById('lordName').textContent = member.lordName || '-';
+            document.getElementById('lordId').textContent = member.lordId || '-';
+            document.getElementById('discord').textContent = member.discord || '-';
+            document.getElementById('faction').textContent = member.faction || '-';
+            document.getElementById('joinedDate').textContent = member.joinedDate || 'Recently';
+            
+            document.getElementById('power').textContent = member.power ? (member.power / 1000000).toFixed(2) + 'M' : '-';
+            document.getElementById('unitsKilled').textContent = member.unitsKilled ? (member.unitsKilled / 1000000).toFixed(2) + 'M' : '-';
+            document.getElementById('unitsDead').textContent = member.unitsDead ? (member.unitsDead / 1000000).toFixed(2) + 'M' : '-';
+            document.getElementById('unitsHealed').textContent = member.unitsHealed ? (member.unitsHealed / 1000000).toFixed(2) + 'M' : '-';
+            document.getElementById('merits').textContent = member.merits ? (member.merits / 1000000).toFixed(2) + 'M' : '-';
+
+            // Load achievements
+            const allBadges = [
+                { icon: '', name: 'Welcomed', desc: 'Joined the LCKY family', id: 'welcomed' },
+                { icon: '⚔️', name: 'War Veteran', desc: 'Participated in 10 wars', id: 'war_veteran' },
+                { icon: '🎯', name: 'Sharpshooter', desc: 'Top 3 in war ranking', id: 'sharpshooter' },
+                { icon: '📸', name: 'Screenshot Master', desc: 'Sent 10 screenshots', id: 'screenshot_master' },
+                { icon: '', name: 'Recruiter', desc: 'Brought 3 new members', id: 'recruiter' },
+                { icon: '🍀', name: 'Lucky Legend', desc: 'Reached 1000 Lucky Points', id: 'lucky_legend' },
+                { icon: '💪', name: 'Power House', desc: 'Reached 500M power', id: 'power_house' },
+                { icon: '', name: 'Killing Machine', desc: '1B units killed', id: 'killing_machine' }
+            ];
+
+            const achievementsGrid = document.getElementById('achievementsGrid');
+            allBadges.forEach(badge => {
+                const hasBadge = member.badges.some(b => b.id === badge.id);
+                const badgeEl = document.createElement('div');
+                badgeEl.className = 'badge-item' + (hasBadge ? '' : ' locked');
+                badgeEl.innerHTML = `
+                    <div class="badge-icon">${hasBadge ? badge.icon : '🔒'}</div>
+                    <div class="badge-name">${badge.name}</div>
+                    <div class="badge-desc">${badge.desc}</div>
+                `;
+                achievementsGrid.appendChild(badgeEl);
+            });
+        }
+    </script>
+</body>
+</html>
