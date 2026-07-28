@@ -209,6 +209,26 @@
             transform: scale(1.3);
         }
 
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+        .spinner {
+            border: 3px solid rgba(0, 255, 136, 0.1);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .no-members {
             text-align: center;
             padding: 60px;
@@ -239,7 +259,7 @@
 
     <div class="container">
         <div class="page-header">
-            <h1>🍀 Our Members</h1>
+            <h1> Our Members</h1>
             <p>Zero Skill. All Luck. Meet the LCKY family.</p>
         </div>
 
@@ -247,11 +267,15 @@
             <button class="filter-btn active" onclick="filterMembers('all')">All Members</button>
             <button class="filter-btn" onclick="filterMembers('founder')">Founders</button>
             <button class="filter-btn" onclick="filterMembers('approved')">Approved</button>
-            <button class="filter-btn" onclick="filterMembers('pending')">Pending</button>
         </div>
 
-        <div class="members-grid" id="membersGrid">
-            <!-- Members will be loaded here -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Loading members...</p>
+        </div>
+
+        <div class="members-grid" id="membersGrid" style="display: none;">
+            <!-- Members loaded here -->
         </div>
 
         <div class="no-members" id="noMembers" style="display: none;">
@@ -261,41 +285,50 @@
 
     <script src="data/members.js"></script>
     <script>
+        let currentFilter = 'all';
+
         function displayMembers(filter = 'all') {
             const grid = document.getElementById('membersGrid');
             const noMembers = document.getElementById('noMembers');
+            const loading = document.getElementById('loading');
+            
             grid.innerHTML = '';
 
-            let filteredMembers = members;
+            let filteredMembers = members.filter(m => m.status !== 'pending');
+            
             if (filter !== 'all') {
-                filteredMembers = members.filter(m => m.status === filter);
+                filteredMembers = filteredMembers.filter(m => m.status === filter);
             }
 
             if (filteredMembers.length === 0) {
+                loading.style.display = 'none';
                 noMembers.style.display = 'block';
                 return;
             }
+            
+            loading.style.display = 'none';
             noMembers.style.display = 'none';
+            grid.style.display = 'grid';
 
             filteredMembers.forEach(member => {
                 const card = document.createElement('div');
                 card.className = 'member-card';
-                card.onclick = () => window.location.href = `profile.html?user=${member.username}`;
+                card.onclick = () => window.location.href = `profile.html?user=${encodeURIComponent(member.username)}`;
                 
                 card.innerHTML = `
-                    <div class="member-avatar">${member.avatar}</div>
+                    <div class="member-avatar">${member.avatar || '⚔️'}</div>
                     <h3 class="member-name">${member.username}</h3>
                     <span class="member-role">${member.role}</span>
                     <div class="badges">
-                        ${member.badges.map(b => `<span class="badge" title="${b.name}">${b.icon}</span>`).join('')}
+                        ${(member.badges || []).map(b => `<span class="badge" title="${b.name}">${b.icon}</span>`).join('')}
                     </div>
                     <div class="member-stats">
                         <div class="stat">
-                            <div class="stat-value">${(member.power / 1000000).toFixed(1)}M</div>
+                            <div class="stat-value">${((member.power || 0) / 1000000).toFixed(1)}M</div>
                             <div class="stat-label">Power</div>
                         </div>
                         <div class="stat">
-                            <div class="stat-value">${member.luckyPoints}</div>
+                            <div class="stat-value">${member.luckyPoints || 0}</div>
                             <div class="stat-label">Lucky Points</div>
                         </div>
                     </div>
@@ -306,13 +339,23 @@
         }
 
         function filterMembers(filter) {
+            currentFilter = filter;
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             displayMembers(filter);
         }
 
-        // Load members on page load
-        displayMembers();
+        // Carregar quando members.js terminar
+        window.addEventListener('membersLoaded', () => {
+            displayMembers(currentFilter);
+        });
+
+        // Fallback se demorar muito
+        setTimeout(() => {
+            if (members.length === 0) {
+                document.getElementById('loading').innerHTML = '<p style="color: var(--error);">Error loading members. Please refresh.</p>';
+            }
+        }, 5000);
     </script>
 </body>
 </html>
