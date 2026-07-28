@@ -6,7 +6,7 @@
     <title>LCKY | Zero Skill All Luck</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -33,7 +33,7 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* YOUTUBE VIDEO BACKGROUND */
+        /* VIDEO BACKGROUND */
         .video-background {
             position: fixed;
             top: 0;
@@ -42,23 +42,21 @@
             height: 100%;
             z-index: -1;
             overflow: hidden;
-            pointer-events: none; /* Impede cliques no vídeo */
         }
 
-        .video-background iframe {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+        .video-background video {
             min-width: 100%;
             min-height: 100%;
             width: auto;
             height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
             object-fit: cover;
-            pointer-events: none;
+            filter: brightness(0.35) contrast(1.1);
         }
 
-        /* Overlay para escurecer o vídeo */
         .video-overlay {
             position: absolute;
             top: 0;
@@ -67,7 +65,6 @@
             height: 100%;
             background: rgba(5, 10, 7, 0.6);
             z-index: 0;
-            pointer-events: none;
         }
 
         .btn {
@@ -225,7 +222,6 @@
             .features-grid, .members-grid { grid-template-columns: 1fr; padding: 0 10px; }
             .section-title { font-size: 2rem; }
             
-            /* Esconde vídeo no mobile para performance */
             .video-background { display: none; }
             body { background: var(--bg-dark); }
         }
@@ -239,10 +235,12 @@
 </head>
 <body>
 
-    <!-- YOUTUBE VIDEO BACKGROUND -->
-    <div class="video-background" id="videoBackground">
+    <!-- VIDEO BACKGROUND -->
+    <div class="video-background">
         <div class="video-overlay"></div>
-        <div id="player"></div>
+        <video autoplay muted loop playsinline poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23050a07' width='1920' height='1080'/%3E%3C/svg%3E">
+            <source src="video-background.mp4" type="video/mp4">
+        </video>
     </div>
 
     <!-- NAVBAR -->
@@ -337,20 +335,19 @@
     <footer>
         <div class="container">
             <p>&copy; 2024 <span>LCKY - Zero Skill All Luck</span>. All rights reserved.</p>
-            <p style="margin-top: 10px; font-size: 0.8rem;">Made with 🍀 and a lot of coffee. Not affiliated with any game companies.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">Made with  and a lot of coffee. Not affiliated with any game companies.</p>
         </div>
     </footer>
 
-    <!-- YouTube IFrame API -->
     <script>
-        // Mobile Menu Toggle
+        // MOBILE MENU TOGGLE
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navLinks = document.getElementById('navLinks');
         const mobileLinks = document.querySelectorAll('.mobile-link');
 
         mobileMenuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-            mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+            mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '' : '☰';
         });
 
         mobileLinks.forEach(link => {
@@ -358,56 +355,6 @@
                 navLinks.classList.remove('active');
                 mobileMenuBtn.textContent = '☰';
             });
-        });
-
-        // YouTube Background Video
-        var player;
-        var isMobile = window.innerWidth <= 768;
-
-        function onYouTubeIframeAPIReady() {
-            if (!isMobile) {
-                player = new YT.Player('player', {
-                    height: '100%',
-                    width: '100%',
-                    videoId: 'lT7Hzu3V1wA', // ID do vídeo do YouTube
-                    playerVars: {
-                        'autoplay': 1,
-                        'controls': 0,
-                        'disablekb': 1,
-                        'fs': 0,
-                        'loop': 1,
-                        'modestbranding': 1,
-                        'playlist': 'lT7Hzu3V1wA', // Necessário para loop funcionar
-                        'rel': 0,
-                        'showinfo': 0,
-                        'mute': 1, // Obrigatório para autoplay
-                        'iv_load_policy': 3 // Esconde annotations
-                    },
-                    events: {
-                        'onReady': onPlayerReady
-                    }
-                });
-            }
-        }
-
-        function onPlayerReady(event) {
-            event.target.playVideo();
-            event.target.mute(); // Garante que está mutado
-        }
-
-        // Carrega YouTube IFrame API
-        if (!isMobile) {
-            var tag = document.createElement('script');
-            tag.src = "https://www.youtube.com/iframe_api";
-            var firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        }
-
-        // Ajusta o vídeo ao redimensionar
-        window.addEventListener('resize', function() {
-            if (player && typeof player.setSize === 'function') {
-                player.setSize(window.innerWidth, window.innerHeight);
-            }
         });
     </script>
 </body>
