@@ -152,8 +152,11 @@
             .hero-buttons .btn { width: 100%; }
             .features-grid, .members-grid { grid-template-columns: 1fr; padding: 0 10px; }
             .section-title { font-size: 2rem; }
-            .video-background { display: none; }
-            body { background: var(--bg-dark); }
+            
+            /* Vídeo aparece no mobile mas mais escurecido */
+            .video-background video {
+                filter: brightness(0.25) contrast(1.2) blur(1px);
+            }
         }
         @media (max-width: 480px) {
             .hero-content h1 { font-size: 1.8rem; }
@@ -180,7 +183,6 @@
                     <li><a href="#home" class="mobile-link">Home</a></li>
                     <li><a href="#features" class="mobile-link">About</a></li>
                     <li><a href="#members" class="mobile-link">Staff</a></li>
-                    <!-- NOVO LINK PARA O FORMULÁRIO -->
                     <li><a href="register.html" class="mobile-link" style="color: var(--primary); font-weight: 700;">Join Us</a></li>
                     <li><a href="https://discord.gg/lcky" target="_blank" class="btn btn-primary mobile-link">Join Discord</a></li>
                 </ul>
@@ -194,7 +196,6 @@
             <p>Welcome to <strong>LCKY</strong>. The community where luck meets chaos. No pressure, just vibes, gaming, and a whole lot of luck (or lack thereof).</p>
             <div class="hero-buttons">
                 <a href="https://discord.gg/lcky" target="_blank" class="btn btn-primary">🍀 Join Discord</a>
-                <!-- BOTÃO ATUALIZADO PARA O FORMULÁRIO -->
                 <a href="register.html" class="btn btn-outline">Apply Now</a>
             </div>
         </div>
