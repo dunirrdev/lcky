@@ -153,7 +153,6 @@
             .features-grid, .members-grid { grid-template-columns: 1fr; padding: 0 10px; }
             .section-title { font-size: 2rem; }
             
-            /* Vídeo aparece no mobile mas mais escurecido */
             .video-background video {
                 filter: brightness(0.25) contrast(1.2) blur(1px);
             }
@@ -180,10 +179,10 @@
                 <a href="index.html" class="logo">LCKY<span>.GG</span></a>
                 <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
                 <ul class="nav-links" id="navLinks">
-                    <li><a href="#home" class="mobile-link">Home</a></li>
-                    <li><a href="#features" class="mobile-link">About</a></li>
-                    <li><a href="#members" class="mobile-link">Staff</a></li>
-                    <li><a href="register.html" class="mobile-link" style="color: var(--primary); font-weight: 700;">Join Us</a></li>
+                    <li><a href="index.html" class="mobile-link">Home</a></li>
+                    <li><a href="members.html" class="mobile-link">Members</a></li>
+                    <li><a href="leaderboard.html" class="mobile-link">Leaderboard</a></li>
+                    <li><a href="apply.html" class="mobile-link" style="color: var(--primary); font-weight: 700;">Apply</a></li>
                     <li><a href="https://discord.gg/lcky" target="_blank" class="btn btn-primary mobile-link">Join Discord</a></li>
                 </ul>
             </nav>
@@ -212,7 +211,7 @@
                     <p>Random events, chaotic game nights, and epic moments that only happen when skill fails but luck prevails.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">💬</div>
+                    <div class="feature-icon"></div>
                     <h3>Guaranteed Vibes</h3>
                     <p>An active server 24/7, with people from everywhere, ready to form duos, squads, or just hang out in voice chat.</p>
                 </div>
@@ -225,13 +224,13 @@
         </div>
     </section>
 
-    <section class="members" id="members">
+    <section class="members" id="staff">
         <div class="container">
             <h2 class="section-title">OUR STAFF</h2>
             <p class="section-subtitle">The lucky ones who keep this mess organized.</p>
             <div class="members-grid">
                 <div class="member-card">
-                    <div class="member-avatar">👑</div>
+                    <div class="member-avatar"></div>
                     <div class="member-info">
                         <h4>TastetheeRambo</h4>
                         <span class="member-role">Founder</span>
@@ -251,6 +250,9 @@
                         <span class="member-role">The Queen</span>
                     </div>
                 </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="members.html" class="btn btn-outline">View All Members →</a>
             </div>
         </div>
     </section>
