@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LCKY | Zero Skill All Luck</title>
-    <!-- Fontes do Google (Orbitron para títulos, Inter para texto) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <style>
-        /* --- VARIÁVEIS E RESET (PALETA VERDE) --- */
+        /* --- VARIABLES & RESET (GREEN PALETTE) --- */
         :root {
             --bg-dark: #050a07;
             --bg-card: #0d1f15;
@@ -63,27 +63,26 @@
         .nav-links a { color: var(--text-muted); font-weight: 600; font-size: 0.95rem; }
         .nav-links a:hover { color: var(--primary); text-shadow: 0 0 8px rgba(0, 255, 136, 0.5); }
 
-        /* --- HERO SECTION COM MATRIX --- */
+        /* --- HERO SECTION WITH MATRIX --- */
         .hero {
             height: 100vh; display: flex; align-items: center; justify-content: center;
             text-align: center; position: relative; overflow: hidden;
             background-color: var(--bg-dark);
         }
         
-        /* Canvas do Matrix */
         #matrix-canvas {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; opacity: 0.4; /* Ajuste a opacidade para não brigar com o texto */
+            z-index: 0; opacity: 0.4;
         }
 
         .hero-content {
-            position: relative; z-index: 1; /* Garante que o texto fique acima da chuva */
+            position: relative; z-index: 1;
         }
 
         .hero-content h1 {
             font-family: 'Orbitron', sans-serif; font-size: 4rem; line-height: 1.1;
             margin-bottom: 1.5rem; text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(5, 10, 7, 0.8); /* Sombra para legibilidade */
+            text-shadow: 0 0 20px rgba(5, 10, 7, 0.8);
         }
         .hero-content h1 span {
             background: var(--gradient); -webkit-background-clip: text;
@@ -133,7 +132,7 @@
         }
         footer span { color: var(--primary); font-weight: 600; }
 
-        /* --- RESPONSIVIDADE --- */
+        /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 2.5rem; }
             .hero-content h1 span { font-size: 3rem; }
@@ -151,26 +150,26 @@
             <nav>
                 <a href="#" class="logo">LCKY<span>.GG</span></a>
                 <ul class="nav-links">
-                    <li><a href="#home">Início</a></li>
-                    <li><a href="#features">Sobre</a></li>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">About</a></li>
                     <li><a href="#members">Staff</a></li>
                 </ul>
                 <a href="https://discord.gg/seulink" target="_blank" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.9rem;">
-                    Entrar no Discord
+                    Join Discord
                 </a>
             </nav>
         </div>
     </header>
 
-    <!-- HERO SECTION COM MATRIX -->
+    <!-- HERO SECTION WITH MATRIX -->
     <section class="hero" id="home">
         <canvas id="matrix-canvas"></canvas>
         <div class="container hero-content">
             <h1>Zero Skill.<br><span>All Luck.</span></h1>
-            <p>Bem-vindo à <strong>LCKY</strong>. A comunidade onde a sorte encontra o caos. Sem pressão, apenas resenha, jogos e muita sorte (ou falta dela).</p>
+            <p>Welcome to <strong>LCKY</strong>. The community where luck meets chaos. No pressure, just vibes, gaming, and a whole lot of luck (or lack thereof).</p>
             <div class="hero-buttons">
-                <a href="https://discord.gg/seulink" class="btn btn-primary">🍀 Entrar no Discord</a>
-                <a href="#features" class="btn btn-outline">Conheça a Comunidade</a>
+                <a href="https://discord.gg/seulink" class="btn btn-primary">🍀 Join Discord</a>
+                <a href="#features" class="btn btn-outline">Discover the Community</a>
             </div>
         </div>
     </section>
@@ -178,24 +177,24 @@
     <!-- FEATURES SECTION -->
     <section class="features" id="features">
         <div class="container">
-            <h2 class="section-title">POR QUE A LCKY?</h2>
-            <p class="section-subtitle">Não levamos o jogo a sério, mas levamos a diversão muito a sério.</p>
+            <h2 class="section-title">WHY LCKY?</h2>
+            <p class="section-subtitle">We don't take the game seriously, but we take fun very seriously.</p>
             
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🎲</div>
-                    <h3>Sorte & Caos</h3>
-                    <p>Eventos aleatórios, noites de jogo caóticas e momentos épicos que só acontecem quando a habilidade falha, mas a sorte prevalece.</p>
+                    <h3>Luck & Chaos</h3>
+                    <p>Random events, chaotic game nights, and epic moments that only happen when skill fails but luck prevails.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">💬</div>
-                    <h3>Resenha Garantida</h3>
-                    <p>Um servidor ativo 24/7, com gente de todos os lugares, pronto para formar duplas, squads ou apenas bater papo no voice.</p>
+                    <h3>Guaranteed Vibes</h3>
+                    <p>An active server 24/7, with people from everywhere, ready to form duos, squads, or just hang out in voice chat.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🏆</div>
-                    <h3>Torneios Zueira</h3>
-                    <p>Competições internas com regras absurdas e prêmios simbólicos. O importante não é ganhar, é participar (e rir muito).</p>
+                    <h3>Meme Tournaments</h3>
+                    <p>Internal competitions with absurd rules and symbolic prizes. Winning isn't the point, participating (and laughing a lot) is.</p>
                 </div>
             </div>
         </div>
@@ -204,32 +203,32 @@
     <!-- MEMBERS SECTION -->
     <section class="members" id="members">
         <div class="container">
-            <h2 class="section-title">NOSSA STAFF</h2>
-            <p class="section-subtitle">Os sortudos que mantêm essa bagunça organizada.</p>
+            <h2 class="section-title">OUR STAFF</h2>
+            <p class="section-subtitle">The lucky ones who keep this mess organized.</p>
             
             <div class="members-grid">
-                <!-- Líder 1 -->
+                <!-- Leader 1 -->
                 <div class="member-card">
                     <div class="member-avatar">👑</div>
                     <div class="member-info">
                         <h4>TastetheeRambo</h4>
-                        <span class="member-role">Fundador</span>
+                        <span class="member-role">Founder</span>
                     </div>
                 </div>
-                <!-- Líder 2 -->
+                <!-- Leader 2 -->
                 <div class="member-card">
                     <div class="member-avatar">🎯</div>
                     <div class="member-info">
                         <h4>ClintEastWall</h4>
-                        <span class="member-role">Administrador</span>
+                        <span class="member-role">Administrator</span>
                     </div>
                 </div>
-                <!-- Líder 3 -->
+                <!-- Leader 3 -->
                 <div class="member-card">
                     <div class="member-avatar">🐉</div>
                     <div class="member-info">
                         <h4>Dragon Queen</h4>
-                        <span class="member-role">Co-Fundadora</span>
+                        <span class="member-role">Co-Founder</span>
                     </div>
                 </div>
             </div>
@@ -239,17 +238,16 @@
     <!-- FOOTER -->
     <footer>
         <div class="container">
-            <p>&copy; 2024 <span>LCKY - Zero Skill All Luck</span>. Todos os direitos reservados.</p>
-            <p style="margin-top: 10px; font-size: 0.8rem;">Feito com 🍀 e muito café. Não somos afiliados a nenhuma empresa de jogos.</p>
+            <p>&copy; 2024 <span>LCKY - Zero Skill All Luck</span>. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">Made with 🍀 and a lot of coffee. Not affiliated with any game companies.</p>
         </div>
     </footer>
 
-    <!-- SCRIPT DO EFEITO MATRIX -->
+    <!-- MATRIX EFFECT SCRIPT -->
     <script>
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
 
-        // Ajusta o tamanho do canvas para a janela
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -257,7 +255,6 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Caracteres: Katakana + Latino + Números (estilo Matrix clássico)
         const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
         const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const nums = '0123456789';
@@ -267,24 +264,21 @@
         const columns = canvas.width / fontSize;
         const drops = [];
 
-        // Inicializa as gotas na posição 1
         for (let x = 0; x < columns; x++) {
             drops[x] = 1;
         }
 
         const draw = () => {
-            // Fundo semi-transparente para criar o efeito de rastro (fade)
             ctx.fillStyle = 'rgba(5, 10, 7, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = '#00ff88'; // Cor verde neon do tema
+            ctx.fillStyle = '#00ff88';
             ctx.font = fontSize + 'px "Share Tech Mono", monospace';
 
             for (let i = 0; i < drops.length; i++) {
                 const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-                // Reinicia a gota no topo aleatoriamente após sair da tela
                 if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
                     drops[i] = 0;
                 }
@@ -292,7 +286,6 @@
             }
         };
 
-        // Executa a animação a cada 33ms (~30 FPS)
         setInterval(draw, 33);
     </script>
 </body>
