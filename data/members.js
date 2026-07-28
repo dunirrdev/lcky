@@ -1,76 +1,82 @@
-// LCKY Members Database
-// Update this file when new members are approved
+// LCKY Members - Carregado automaticamente do Google Sheets
+// Não edite este arquivo manualmente!
 
-const members = [
-    {
-        username: "TastetheeRambo",
-        avatar: "👑",
-        role: "Founder",
-        status: "founder",
-        lordName: "TastetheeRambo",
-        lordId: "12345678",
-        discord: "@TastetheeRambo",
-        faction: "Wilderburg",
-        power: 850000000,
-        unitsKilled: 450000000,
-        unitsDead: 12000000,
-        unitsHealed: 680000000,
-        merits: 95000000,
-        luckyPoints: 1250,
-        joinedDate: "2024-01-15",
-        badges: [
-            { id: "welcomed", name: "Welcomed", icon: "🏆" },
-            { id: "war_veteran", name: "War Veteran", icon: "⚔️" },
-            { id: "sharpshooter", name: "Sharpshooter", icon: "🎯" },
-            { id: "recruiter", name: "Recruiter", icon: "👥" },
-            { id: "lucky_legend", name: "Lucky Legend", icon: "🍀" },
-            { id: "power_house", name: "Power House", icon: "💪" }
-        ]
-    },
-    {
-        username: "ClintEastWall",
-        avatar: "🎯",
-        role: "Co-Founder",
-        status: "founder",
-        lordName: "ClintEastWall",
-        lordId: "25279746",
-        discord: "@ClintEastWall",
-        faction: "League of Order",
-        power: 720000000,
-        unitsKilled: 380000000,
-        unitsDead: 9500000,
-        unitsHealed: 520000000,
-        merits: 78000000,
-        luckyPoints: 980,
-        joinedDate: "2024-01-15",
-        badges: [
-            { id: "welcomed", name: "Welcomed", icon: "🏆" },
-            { id: "war_veteran", name: "War Veteran", icon: "⚔️" },
-            { id: "sharpshooter", name: "Sharpshooter", icon: "🎯" },
-            { id: "screenshot_master", name: "Screenshot Master", icon: "📸" }
-        ]
-    },
-    {
-        username: "Dragon Queen",
-        avatar: "🐉",
-        role: "The Queen",
-        status: "founder",
-        lordName: "DragonQueen",
-        lordId: "87654321",
-        discord: "@DragonQueen",
-        faction: "Springwardens",
-        power: 680000000,
-        unitsKilled: 290000000,
-        unitsDead: 8200000,
-        unitsHealed: 450000000,
-        merits: 65000000,
-        luckyPoints: 850,
-        joinedDate: "2024-01-15",
-        badges: [
-            { id: "welcomed", name: "Welcomed", icon: "🏆" },
-            { id: "war_veteran", name: "War Veteran", icon: "⚔️" },
-            { id: "recruiter", name: "Recruiter", icon: "👥" }
-        ]
+let members = [];
+
+async function loadMembers() {
+    try {
+        // ⚠️ SUBSTITUA ESTE LINK PELO SEU LINK DO GOOGLE SHEETS CSV
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/SEU_ID_DA_PLANILHA/export?format=csv&gid=0';
+        
+        const response = await fetch(sheetUrl);
+        const csvText = await response.text();
+        
+        // Parse CSV
+        const lines = csvText.split('\n');
+        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+        
+        members = [];
+        
+        for (let i = 1; i < lines.length; i++) {
+            if (!lines[i].trim()) continue;
+            
+            // Parse linha CSV (considerando vírgulas dentro de aspas)
+            const values = parseCSVLine(lines[i]);
+            
+            if (values.length >= headers.length) {
+                const member = {};
+                headers.forEach((header, index) => {
+                    let value = values[index] ? values[index].trim().replace(/"/g, '') : '';
+                    
+                    // Converter números
+                    if (['power', 'unitsKilled', 'unitsDead', 'unitsHealed', 'merits', 'luckyPoints'].includes(header)) {
+                        value = parseInt(value) || 0;
+                    }
+                    
+                    member[header] = value;
+                });
+                
+                // Adicionar badges padrão
+                if (!member.badges) {
+                    member.badges = [{ id: "welcomed", name: "Welcomed", icon: "🏆" }];
+                }
+                
+                members.push(member);
+            }
+        }
+        
+        console.log('✅ Members loaded:', members.length);
+        
+        // Disparar evento quando carregar
+        window.dispatchEvent(new CustomEvent('membersLoaded'));
+        
+    } catch (error) {
+        console.error('❌ Error loading members:', error);
     }
-    // Add new approved members here following the same format
-];
+}
+
+// Parser CSV simples
+function parseCSVLine(line) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+    
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        
+        if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            result.push(current);
+            current = '';
+        } else {
+            current += char;
+        }
+    }
+    
+    result.push(current);
+    return result;
+}
+
+// Carregar membros automaticamente
+loadMembers();
