@@ -206,6 +206,25 @@
             color: var(--primary);
         }
 
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+        }
+        .spinner {
+            border: 3px solid rgba(0, 255, 136, 0.1);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .no-data {
             text-align: center;
             padding: 60px;
@@ -242,10 +261,15 @@
         <div class="leaderboard-tabs">
             <button class="tab-btn active" onclick="showLeaderboard('power')"> By Power</button>
             <button class="tab-btn" onclick="showLeaderboard('kills')">⚔️ By Kills</button>
-            <button class="tab-btn" onclick="showLeaderboard('lucky')">🍀 Lucky Points</button>
+            <button class="tab-btn" onclick="showLeaderboard('lucky')"> Lucky Points</button>
         </div>
 
-        <div class="leaderboard-container">
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Loading leaderboard...</p>
+        </div>
+
+        <div class="leaderboard-container" id="leaderboardContainer" style="display: none;">
             <div class="leaderboard-header">
                 <div>Rank</div>
                 <div>Member</div>
@@ -274,12 +298,15 @@
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
+            const container = document.getElementById('leaderboardContainer');
             const body = document.getElementById('leaderboardBody');
             const noData = document.getElementById('noData');
+            const loading = document.getElementById('loading');
+            
             body.innerHTML = '';
 
-            // Sort members
-            let sortedMembers = [...members].filter(m => m.status === 'approved' || m.status === 'founder');
+            // Sort members (excluir pending)
+            let sortedMembers = [...members].filter(m => m.status !== 'pending');
             
             if (type === 'power') {
                 sortedMembers.sort((a, b) => (b.power || 0) - (a.power || 0));
@@ -289,17 +316,22 @@
                 sortedMembers.sort((a, b) => (b.luckyPoints || 0) - (a.luckyPoints || 0));
             }
 
+            loading.style.display = 'none';
+
             if (sortedMembers.length === 0) {
+                container.style.display = 'none';
                 noData.style.display = 'block';
                 return;
             }
+            
+            container.style.display = 'block';
             noData.style.display = 'none';
 
             sortedMembers.forEach((member, index) => {
                 const rank = index + 1;
                 const row = document.createElement('div');
                 row.className = 'leaderboard-row';
-                row.onclick = () => window.location.href = `profile.html?user=${member.username}`;
+                row.onclick = () => window.location.href = `profile.html?user=${encodeURIComponent(member.username)}`;
 
                 let rankClass = 'normal';
                 let rankDisplay = rank;
@@ -321,7 +353,7 @@
                 row.innerHTML = `
                     <div class="rank ${rankClass}">${rankDisplay}</div>
                     <div class="member-info">
-                        <div class="member-avatar-small">${member.avatar}</div>
+                        <div class="member-avatar-small">${member.avatar || '⚔️'}</div>
                         <div class="member-details">
                             <div class="member-name">${member.username}</div>
                             <div class="member-role-small">${member.role}</div>
@@ -329,15 +361,24 @@
                     </div>
                     <div class="hide-mobile">${member.role}</div>
                     <div class="stat-value">${type === 'lucky' ? '-' : statValue}</div>
-                    <div class="stat-value hide-mobile">${type === 'lucky' ? statValue : member.luckyPoints}</div>
+                    <div class="stat-value hide-mobile">${type === 'lucky' ? statValue : (member.luckyPoints || 0)}</div>
                 `;
 
                 body.appendChild(row);
             });
         }
 
-        // Load default leaderboard
-        showLeaderboard('power');
+        // Carregar quando members.js terminar
+        window.addEventListener('membersLoaded', () => {
+            showLeaderboard(currentLeaderboard);
+        });
+
+        // Fallback
+        setTimeout(() => {
+            if (members.length === 0) {
+                document.getElementById('loading').innerHTML = '<p style="color: var(--error);">Error loading leaderboard. Please refresh.</p>';
+            }
+        }, 5000);
     </script>
 </body>
 </html>
