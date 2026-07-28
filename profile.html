@@ -256,6 +256,32 @@
             background: var(--primary);
             color: #050a07;
         }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+        }
+        .spinner {
+            border: 3px solid rgba(0, 255, 136, 0.1);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 60px;
+            color: #ff4444;
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
@@ -275,76 +301,88 @@
     <div class="container">
         <a href="members.html" class="back-btn">← Back to Members</a>
 
-        <div class="profile-header">
-            <div class="profile-avatar" id="profileAvatar"></div>
-            <h1 class="profile-name" id="profileName">Loading...</h1>
-            <div class="profile-role" id="profileRole">Member</div>
-            <div class="profile-status">
-                <span class="status-dot"></span>
-                <span id="profileStatus">Active</span>
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading profile...</p>
+        </div>
+
+        <div id="profileContent" style="display: none;">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar"></div>
+                <h1 class="profile-name" id="profileName">Loading...</h1>
+                <div class="profile-role" id="profileRole">Member</div>
+                <div class="profile-status">
+                    <span class="status-dot"></span>
+                    <span id="profileStatus">Active</span>
+                </div>
+            </div>
+
+            <div class="lucky-points">
+                <div class="lp-value" id="luckyPoints">0</div>
+                <div class="lp-label">🍀 Lucky Points</div>
+            </div>
+
+            <div class="profile-grid">
+                <div class="profile-section">
+                    <h2 class="section-title"> Account Info</h2>
+                    <div class="stat-row">
+                        <span class="stat-label">Lord Name</span>
+                        <span class="stat-value" id="lordName">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Lord ID</span>
+                        <span class="stat-value" id="lordId">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Discord</span>
+                        <span class="stat-value" id="discord">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Faction</span>
+                        <span class="stat-value" id="faction">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Joined</span>
+                        <span class="stat-value" id="joinedDate">-</span>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h2 class="section-title">📊 Game Stats</h2>
+                    <div class="stat-row">
+                        <span class="stat-label">Power</span>
+                        <span class="stat-value" id="power">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Units Killed</span>
+                        <span class="stat-value" id="unitsKilled">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Units Dead</span>
+                        <span class="stat-value" id="unitsDead">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Units Healed</span>
+                        <span class="stat-value" id="unitsHealed">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Merits (Last Season)</span>
+                        <span class="stat-value" id="merits">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section" style="margin-bottom: 30px;">
+                <h2 class="section-title">🏆 Achievements</h2>
+                <div class="badges-grid" id="achievementsGrid">
+                    <!-- Achievements loaded here -->
+                </div>
             </div>
         </div>
 
-        <div class="lucky-points">
-            <div class="lp-value" id="luckyPoints">0</div>
-            <div class="lp-label">🍀 Lucky Points</div>
-        </div>
-
-        <div class="profile-grid">
-            <div class="profile-section">
-                <h2 class="section-title"> Account Info</h2>
-                <div class="stat-row">
-                    <span class="stat-label">Lord Name</span>
-                    <span class="stat-value" id="lordName">-</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Lord ID</span>
-                    <span class="stat-value" id="lordId">-</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Discord</span>
-                    <span class="stat-value" id="discord">-</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Faction</span>
-                    <span class="stat-value" id="faction">-</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Joined</span>
-                    <span class="stat-value" id="joinedDate">-</span>
-                </div>
-            </div>
-
-            <div class="profile-section">
-                <h2 class="section-title">📊 Game Stats</h2>
-                <div class="stat-row">
-                    <span class="stat-label">Power</span>
-                    <span class="stat-value" id="power">-</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Units Killed</span>
-                    <span class="stat-value" id="unitsKilled">-</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Units Dead</span>
-                    <span class="stat-value" id="unitsDead">-</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Units Healed</span>
-                    <span class="stat-value" id="unitsHealed">-</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Merits (Last Season)</span>
-                    <span class="stat-value" id="merits">-</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="profile-section" style="margin-bottom: 30px;">
-            <h2 class="section-title">🏆 Achievements</h2>
-            <div class="badges-grid" id="achievementsGrid">
-                <!-- Achievements loaded here -->
-            </div>
+        <div id="errorContent" class="error-message" style="display: none;">
+            <h1 style="font-family: 'Orbitron', sans-serif; font-size: 3rem; margin-bottom: 20px;">Member Not Found</h1>
+            <a href="members.html" style="color: var(--primary); text-decoration: none; font-size: 1.2rem;">← Back to Members</a>
         </div>
     </div>
 
@@ -352,25 +390,35 @@
     <script>
         // Get username from URL
         const urlParams = new URLSearchParams(window.location.search);
-        const username = urlParams.get('user');
+        const username = decodeURIComponent(urlParams.get('user'));
 
-        // Find member
-        const member = members.find(m => m.username === username);
+        function loadProfile() {
+            // Find member
+            const member = members.find(m => m.username === username);
 
-        if (!member) {
-            document.body.innerHTML = `
-                <div style="text-align: center; padding: 100px; color: var(--text-muted);">
-                    <h1 style="font-family: 'Orbitron', sans-serif; font-size: 3rem; margin-bottom: 20px;">Member Not Found</h1>
-                    <a href="members.html" style="color: var(--primary); text-decoration: none; font-size: 1.2rem;">← Back to Members</a>
-                </div>
-            `;
-        } else {
+            const loading = document.getElementById('loading');
+            const profileContent = document.getElementById('profileContent');
+            const errorContent = document.getElementById('errorContent');
+
+            if (!member) {
+                loading.style.display = 'none';
+                profileContent.style.display = 'none';
+                errorContent.style.display = 'block';
+                return;
+            }
+
+            loading.style.display = 'none';
+            errorContent.style.display = 'none';
+            profileContent.style.display = 'block';
+
             // Update profile
-            document.getElementById('profileAvatar').textContent = member.avatar;
+            document.getElementById('profileAvatar').textContent = member.avatar || '⚔️';
             document.getElementById('profileName').textContent = member.username;
             document.getElementById('profileRole').textContent = member.role;
-            document.getElementById('profileStatus').textContent = member.status === 'approved' ? 'Approved Member' : member.status === 'pending' ? 'Pending Approval' : 'Founder';
-            document.getElementById('luckyPoints').textContent = member.luckyPoints;
+            document.getElementById('profileStatus').textContent = 
+                member.status === 'approved' ? 'Approved Member' : 
+                member.status === 'pending' ? 'Pending Approval' : 'Founder';
+            document.getElementById('luckyPoints').textContent = member.luckyPoints || 0;
             
             document.getElementById('lordName').textContent = member.lordName || '-';
             document.getElementById('lordId').textContent = member.lordId || '-';
@@ -398,7 +446,7 @@
 
             const achievementsGrid = document.getElementById('achievementsGrid');
             allBadges.forEach(badge => {
-                const hasBadge = member.badges.some(b => b.id === badge.id);
+                const hasBadge = member.badges && member.badges.some(b => b.id === badge.id);
                 const badgeEl = document.createElement('div');
                 badgeEl.className = 'badge-item' + (hasBadge ? '' : ' locked');
                 badgeEl.innerHTML = `
@@ -409,6 +457,18 @@
                 achievementsGrid.appendChild(badgeEl);
             });
         }
+
+        // Carregar quando members.js terminar
+        window.addEventListener('membersLoaded', () => {
+            loadProfile();
+        });
+
+        // Fallback
+        setTimeout(() => {
+            if (members.length === 0) {
+                document.getElementById('loading').innerHTML = '<p style="color: var(--error);">Error loading profile. Please refresh.</p>';
+            }
+        }, 5000);
     </script>
 </body>
 </html>
