@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LCKY | Zero Skill All Luck</title>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <style>
-        /* --- VARIABLES & RESET (GREEN PALETTE) --- */
         :root {
             --bg-dark: #050a07;
             --bg-card: #0d1f15;
@@ -35,6 +33,43 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
+        /* YOUTUBE VIDEO BACKGROUND */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none; /* Impede cliques no vídeo */
+        }
+
+        .video-background iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        /* Overlay para escurecer o vídeo */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 10, 7, 0.6);
+            z-index: 0;
+            pointer-events: none;
+        }
+
         .btn {
             display: inline-block; padding: 14px 32px; border-radius: 8px;
             font-weight: 600; font-size: 1rem; cursor: pointer;
@@ -57,10 +92,17 @@
             font-family: 'Orbitron', sans-serif; font-size: 2.5rem; text-align: center;
             margin-bottom: 1rem; background: var(--gradient);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
         }
-        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 3rem; font-size: 1.1rem; padding: 0 10px; }
+        .section-subtitle { 
+            text-align: center; color: var(--text-muted); margin-bottom: 3rem; 
+            font-size: 1.1rem; padding: 0 10px;
+            position: relative;
+            z-index: 1;
+        }
 
-        /* --- NAVBAR --- */
+        /* NAVBAR */
         header {
             position: fixed; top: 0; width: 100%; background: rgba(5, 10, 7, 0.95);
             backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid rgba(0, 255, 136, 0.1);
@@ -78,24 +120,21 @@
             font-size: 1.8rem; cursor: pointer; z-index: 1001;
         }
 
-        /* --- HERO SECTION WITH MATRIX --- */
+        /* HERO SECTION */
         .hero {
             min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            text-align: center; position: relative; overflow: hidden;
-            background-color: var(--bg-dark); padding: 100px 20px 60px;
+            text-align: center; position: relative; 
+            padding: 100px 20px 60px;
         }
         
-        #matrix-canvas {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; opacity: 0.35;
+        .hero-content { 
+            position: relative; z-index: 1; width: 100%; 
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9);
         }
-
-        .hero-content { position: relative; z-index: 1; width: 100%; }
 
         .hero-content h1 {
             font-family: 'Orbitron', sans-serif; font-size: 4rem; line-height: 1.1;
             margin-bottom: 1.5rem; text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(5, 10, 7, 0.9);
         }
         .hero-content h1 span {
             background: var(--gradient); -webkit-background-clip: text;
@@ -103,27 +142,28 @@
         }
         .hero-content p {
             font-size: 1.25rem; color: var(--text-muted); max-width: 600px;
-            margin: 0 auto 2.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            margin: 0 auto 2.5rem;
         }
         .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
-        /* --- FEATURES SECTION --- */
-        .features { padding: 80px 0; }
+        /* FEATURES SECTION */
+        .features { padding: 80px 0; position: relative; z-index: 1; }
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .feature-card {
-            background: var(--bg-card); padding: 2.5rem; border-radius: 16px;
+            background: rgba(13, 31, 21, 0.95); padding: 2.5rem; border-radius: 16px;
             border: 1px solid rgba(0, 255, 136, 0.1); transition: 0.3s;
+            backdrop-filter: blur(10px);
         }
         .feature-card:hover {
             transform: translateY(-10px); border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
         }
         .feature-icon { font-size: 2.5rem; margin-bottom: 1.5rem; }
         .feature-card h3 { font-family: 'Orbitron', sans-serif; margin-bottom: 1rem; font-size: 1.25rem; color: var(--text-main); }
         .feature-card p { color: var(--text-muted); font-size: 0.95rem; }
 
-        /* --- MEMBERS SECTION --- */
-        .members { padding: 80px 0; background: #08120c; }
+        /* MEMBERS SECTION */
+        .members { padding: 80px 0; background: rgba(8, 18, 12, 0.95); position: relative; z-index: 1; }
         .members-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; }
         .member-card {
             background: var(--bg-card); border-radius: 16px; overflow: hidden;
@@ -138,20 +178,19 @@
         .member-info h4 { font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem; color: var(--text-main); font-size: 1.1rem; word-break: break-word; }
         .member-role { color: var(--primary); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- FOOTER --- */
+        /* FOOTER */
         footer {
             padding: 3rem 20px; text-align: center; border-top: 1px solid rgba(0, 255, 136, 0.1);
             color: var(--text-muted); font-size: 0.9rem;
+            position: relative; z-index: 1;
+            background: rgba(5, 10, 7, 0.95);
         }
         footer span { color: var(--primary); font-weight: 600; }
 
-        /* =========================================
-           MOBILE OPTIMIZATION (MAX-WIDTH: 768PX)
-           ========================================= */
+        /* MOBILE OPTIMIZATION */
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             
-            /* Mobile Menu Dropdown */
             .nav-links {
                 position: absolute;
                 top: 80px;
@@ -165,7 +204,7 @@
                 transform: translateY(-150%);
                 transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 border-bottom: 1px solid rgba(0, 255, 136, 0.2);
-                pointer-events: none; /* Prevents clicking when hidden */
+                pointer-events: none;
             }
             .nav-links.active {
                 transform: translateY(0);
@@ -176,18 +215,19 @@
                 width: 80%;
             }
 
-            /* Hero Typography Scale */
             .hero-content h1 { font-size: 2.2rem; }
             .hero-content h1 span { font-size: 2.8rem; }
             .hero-content p { font-size: 1rem; padding: 0 10px; }
             
-            /* Buttons stack on mobile */
             .hero-buttons { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto; }
             .hero-buttons .btn { width: 100%; }
 
-            /* Grids become single column */
             .features-grid, .members-grid { grid-template-columns: 1fr; padding: 0 10px; }
             .section-title { font-size: 2rem; }
+            
+            /* Esconde vídeo no mobile para performance */
+            .video-background { display: none; }
+            body { background: var(--bg-dark); }
         }
 
         @media (max-width: 480px) {
@@ -199,13 +239,19 @@
 </head>
 <body>
 
+    <!-- YOUTUBE VIDEO BACKGROUND -->
+    <div class="video-background" id="videoBackground">
+        <div class="video-overlay"></div>
+        <div id="player"></div>
+    </div>
+
     <!-- NAVBAR -->
     <header>
         <div class="container">
             <nav>
                 <a href="#" class="logo">LCKY<span>.GG</span></a>
                 
-                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu"></button>
                 
                 <ul class="nav-links" id="navLinks">
                     <li><a href="#home" class="mobile-link">Home</a></li>
@@ -217,9 +263,8 @@
         </div>
     </header>
 
-    <!-- HERO SECTION WITH MATRIX -->
+    <!-- HERO SECTION -->
     <section class="hero" id="home">
-        <canvas id="matrix-canvas"></canvas>
         <div class="container hero-content">
             <h1>Zero Skill.<br><span>All Luck.</span></h1>
             <p>Welcome to <strong>LCKY</strong>. The community where luck meets chaos. No pressure, just vibes, gaming, and a whole lot of luck (or lack thereof).</p>
@@ -243,7 +288,7 @@
                     <p>Random events, chaotic game nights, and epic moments that only happen when skill fails but luck prevails.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">💬</div>
+                    <div class="feature-icon"></div>
                     <h3>Guaranteed Vibes</h3>
                     <p>An active server 24/7, with people from everywhere, ready to form duos, squads, or just hang out in voice chat.</p>
                 </div>
@@ -263,7 +308,6 @@
             <p class="section-subtitle">The lucky ones who keep this mess organized.</p>
             
             <div class="members-grid">
-                <!-- Leader 1 -->
                 <div class="member-card">
                     <div class="member-avatar">👑</div>
                     <div class="member-info">
@@ -271,7 +315,6 @@
                         <span class="member-role">Founder</span>
                     </div>
                 </div>
-                <!-- Leader 2 -->
                 <div class="member-card">
                     <div class="member-avatar">🎯</div>
                     <div class="member-info">
@@ -279,7 +322,6 @@
                         <span class="member-role">Co-Founder</span>
                     </div>
                 </div>
-                <!-- Leader 3 -->
                 <div class="member-card">
                     <div class="member-avatar">🐉</div>
                     <div class="member-info">
@@ -294,14 +336,14 @@
     <!-- FOOTER -->
     <footer>
         <div class="container">
-            <p>&copy; 2026 <span>LCKY - Zero Skill All Luck</span>. All rights reserved.</p>
+            <p>&copy; 2024 <span>LCKY - Zero Skill All Luck</span>. All rights reserved.</p>
             <p style="margin-top: 10px; font-size: 0.8rem;">Made with 🍀 and a lot of coffee. Not affiliated with any game companies.</p>
         </div>
     </footer>
 
-    <!-- SCRIPTS -->
+    <!-- YouTube IFrame API -->
     <script>
-        // --- MOBILE MENU TOGGLE ---
+        // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navLinks = document.getElementById('navLinks');
         const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -311,7 +353,6 @@
             mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
         });
 
-        // Close menu when a link is clicked
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
@@ -319,66 +360,55 @@
             });
         });
 
-        // --- MATRIX EFFECT ---
-        const canvas = document.getElementById('matrix-canvas');
-        const ctx = canvas.getContext('2d');
+        // YouTube Background Video
+        var player;
+        var isMobile = window.innerWidth <= 768;
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            // Recalculate columns on resize
-            const newColumns = canvas.width / fontSize;
-            // Preserve existing drops if possible, or reset
-            if (newColumns > drops.length) {
-                for (let x = drops.length; x < newColumns; x++) {
-                    drops[x] = Math.random() * (canvas.height / fontSize);
-                }
-            }
-        }
-        
-        const fontSize = 16;
-        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const nums = '0123456789';
-        const alphabet = katakana + latin + nums;
-        
-        let drops = [];
-        
-        function initDrops() {
-            const columns = canvas.width / fontSize;
-            drops = [];
-            for (let x = 0; x < columns; x++) {
-                drops[x] = Math.random() * (canvas.height / fontSize); // Start at random heights for natural look
+        function onYouTubeIframeAPIReady() {
+            if (!isMobile) {
+                player = new YT.Player('player', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: 'lT7Hzu3V1wA', // ID do vídeo do YouTube
+                    playerVars: {
+                        'autoplay': 1,
+                        'controls': 0,
+                        'disablekb': 1,
+                        'fs': 0,
+                        'loop': 1,
+                        'modestbranding': 1,
+                        'playlist': 'lT7Hzu3V1wA', // Necessário para loop funcionar
+                        'rel': 0,
+                        'showinfo': 0,
+                        'mute': 1, // Obrigatório para autoplay
+                        'iv_load_policy': 3 // Esconde annotations
+                    },
+                    events: {
+                        'onReady': onPlayerReady
+                    }
+                });
             }
         }
 
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            initDrops();
+        function onPlayerReady(event) {
+            event.target.playVideo();
+            event.target.mute(); // Garante que está mutado
+        }
+
+        // Carrega YouTube IFrame API
+        if (!isMobile) {
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+
+        // Ajusta o vídeo ao redimensionar
+        window.addEventListener('resize', function() {
+            if (player && typeof player.setSize === 'function') {
+                player.setSize(window.innerWidth, window.innerHeight);
+            }
         });
-        
-        resizeCanvas();
-        initDrops();
-
-        const draw = () => {
-            ctx.fillStyle = 'rgba(5, 10, 7, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = '#00ff88';
-            ctx.font = fontSize + 'px "Share Tech Mono", monospace';
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        };
-
-        setInterval(draw, 33);
     </script>
 </body>
 </html>
