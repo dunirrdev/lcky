@@ -3,287 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Freak Community | Página Inicial</title>
+    <title>LCKY | Zero Skill All Luck</title>
     <!-- Fontes do Google (Orbitron para títulos, Inter para texto) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <style>
-        /* --- VARIÁVEIS E RESET --- */
+        /* --- VARIÁVEIS E RESET (PALETA VERDE) --- */
         :root {
-            --bg-dark: #0a0a0c;
-            --bg-card: #15151a;
-            --primary: #ff0055; /* Rosa/Vermelho Neon */
-            --secondary: #7000ff; /* Roxo Neon */
+            --bg-dark: #050a07;
+            --bg-card: #0d1f15;
+            --primary: #00ff88;
+            --secondary: #00cc6a;
             --text-main: #ffffff;
-            --text-muted: #a0a0b0;
+            --text-muted: #a0bfb0;
             --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
 
-        /* --- UTILITÁRIOS --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
         .btn {
-            display: inline-block;
-            padding: 14px 32px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: inline-block; padding: 14px 32px; border-radius: 8px;
+            font-weight: 600; font-size: 1rem; cursor: pointer;
+            transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
         }
-
         .btn-primary {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            box-shadow: 0 4px 15px rgba(255, 0, 85, 0.4);
+            background: var(--gradient); color: #050a07; border: none;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
         }
-
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 0, 85, 0.6);
+            transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 255, 136, 0.5);
         }
-
         .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--text-main);
+            background: transparent; border: 2px solid var(--primary); color: var(--primary);
         }
-
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
-        }
+        .btn-outline:hover { background: var(--primary); color: #050a07; }
 
         .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 1rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-family: 'Orbitron', sans-serif; font-size: 2.5rem; text-align: center;
+            margin-bottom: 1rem; background: var(--gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 3rem;
-            font-size: 1.1rem;
-        }
+        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 3rem; font-size: 1.1rem; }
 
         /* --- NAVBAR --- */
         header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 10, 12, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: fixed; top: 0; width: 100%; background: rgba(5, 10, 7, 0.9);
+            backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid rgba(0, 255, 136, 0.1);
         }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 80px;
-        }
-
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--text-main);
-        }
-
+        nav { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--text-main); letter-spacing: 2px; }
         .logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: var(--text-muted); font-weight: 600; font-size: 0.95rem; }
+        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 8px rgba(0, 255, 136, 0.5); }
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .nav-links a:hover { color: var(--primary); }
-
-        /* --- HERO SECTION --- */
+        /* --- HERO SECTION COM MATRIX --- */
         .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            background: radial-gradient(circle at center, rgba(112, 0, 255, 0.15) 0%, rgba(10, 10, 12, 1) 70%);
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; position: relative; overflow: hidden;
+            background-color: var(--bg-dark);
+        }
+        
+        /* Canvas do Matrix */
+        #matrix-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; opacity: 0.4; /* Ajuste a opacidade para não brigar com o texto */
+        }
+
+        .hero-content {
+            position: relative; z-index: 1; /* Garante que o texto fique acima da chuva */
         }
 
         .hero-content h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
+            font-family: 'Orbitron', sans-serif; font-size: 4rem; line-height: 1.1;
+            margin-bottom: 1.5rem; text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(5, 10, 7, 0.8); /* Sombra para legibilidade */
         }
-
         .hero-content h1 span {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background: var(--gradient); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; display: block; font-size: 5rem;
         }
-
         .hero-content p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
+            font-size: 1.25rem; color: var(--text-muted); max-width: 600px;
+            margin: 0 auto 2.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; }
 
         /* --- FEATURES SECTION --- */
-        .features {
-            padding: 100px 0;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
+        .features { padding: 100px 0; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .feature-card {
-            background: var(--bg-card);
-            padding: 2.5rem;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
+            background: var(--bg-card); padding: 2.5rem; border-radius: 16px;
+            border: 1px solid rgba(0, 255, 136, 0.1); transition: 0.3s;
         }
-
         .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: translateY(-10px); border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
         }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-        }
-
-        .feature-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
-        }
-
-        .feature-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--primary); }
+        .feature-card h3 { font-family: 'Orbitron', sans-serif; margin-bottom: 1rem; font-size: 1.25rem; color: var(--text-main); }
+        .feature-card p { color: var(--text-muted); font-size: 0.95rem; }
 
         /* --- MEMBERS SECTION --- */
-        .members {
-            padding: 100px 0;
-            background: #0d0d10;
-        }
-
-        .members-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-        }
-
+        .members { padding: 100px 0; background: #08120c; }
+        .members-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; }
         .member-card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            overflow: hidden;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
+            background: var(--bg-card); border-radius: 16px; overflow: hidden;
+            text-align: center; border: 1px solid rgba(0, 255, 136, 0.1); transition: 0.3s;
         }
-
-        .member-card:hover {
-            border-color: var(--secondary);
-        }
-
+        .member-card:hover { border-color: var(--primary); transform: translateY(-5px); }
         .member-avatar {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(45deg, #2a2a35, #1a1a20);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: var(--text-muted);
+            width: 100%; height: 180px; background: linear-gradient(135deg, #1a3325, #0d1f15);
+            display: flex; align-items: center; justify-content: center; font-size: 4rem;
         }
-
-        .member-info {
-            padding: 1.5rem;
-        }
-
-        .member-info h4 {
-            font-family: 'Orbitron', sans-serif;
-            margin-bottom: 0.5rem;
-        }
-
-        .member-role {
-            color: var(--primary);
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .member-info { padding: 1.5rem; }
+        .member-info h4 { font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem; color: var(--text-main); font-size: 1.1rem; }
+        .member-role { color: var(--primary); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
         /* --- FOOTER --- */
         footer {
-            padding: 3rem 0;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            padding: 3rem 0; text-align: center; border-top: 1px solid rgba(0, 255, 136, 0.1);
+            color: var(--text-muted); font-size: 0.9rem;
         }
-
-        footer span { color: var(--primary); }
+        footer span { color: var(--primary); font-weight: 600; }
 
         /* --- RESPONSIVIDADE --- */
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 2.5rem; }
-            .nav-links { display: none; } /* Em um site real, adicionar menu hambúrguer aqui */
+            .hero-content h1 span { font-size: 3rem; }
+            .nav-links { display: none; }
             .hero-buttons { flex-direction: column; }
             .btn { width: 100%; text-align: center; }
         }
@@ -295,12 +149,11 @@
     <header>
         <div class="container">
             <nav>
-                <a href="#" class="logo">FREAK<span>SHOW</span></a>
+                <a href="#" class="logo">LCKY<span>.GG</span></a>
                 <ul class="nav-links">
                     <li><a href="#home">Início</a></li>
                     <li><a href="#features">Sobre</a></li>
-                    <li><a href="#members">Membros</a></li>
-                    <li><a href="#contato">Contato</a></li>
+                    <li><a href="#members">Staff</a></li>
                 </ul>
                 <a href="https://discord.gg/seulink" target="_blank" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.9rem;">
                     Entrar no Discord
@@ -309,14 +162,15 @@
         </div>
     </header>
 
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION COM MATRIX -->
     <section class="hero" id="home">
+        <canvas id="matrix-canvas"></canvas>
         <div class="container hero-content">
-            <h1>BEM-VINDO AO <br><span>THE FREAK SHOW</span></h1>
-            <p>A comunidade definitiva para jogadores que buscam excelência, trabalho em equipe e diversão. Junte-se a nós e faça parte da elite.</p>
+            <h1>Zero Skill.<br><span>All Luck.</span></h1>
+            <p>Bem-vindo à <strong>LCKY</strong>. A comunidade onde a sorte encontra o caos. Sem pressão, apenas resenha, jogos e muita sorte (ou falta dela).</p>
             <div class="hero-buttons">
-                <a href="https://discord.gg/seulink" class="btn btn-primary">🎮 Entrar no Discord</a>
-                <a href="#features" class="btn btn-outline">Saiba Mais</a>
+                <a href="https://discord.gg/seulink" class="btn btn-primary">🍀 Entrar no Discord</a>
+                <a href="#features" class="btn btn-outline">Conheça a Comunidade</a>
             </div>
         </div>
     </section>
@@ -324,24 +178,24 @@
     <!-- FEATURES SECTION -->
     <section class="features" id="features">
         <div class="container">
-            <h2 class="section-title">POR QUE NOS ESCOLHER?</h2>
-            <p class="section-subtitle">Oferecemos muito mais do que apenas um servidor. Oferecemos uma experiência completa.</p>
+            <h2 class="section-title">POR QUE A LCKY?</h2>
+            <p class="section-subtitle">Não levamos o jogo a sério, mas levamos a diversão muito a sério.</p>
             
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">⚔️</div>
-                    <h3>Competitivo de Elite</h3>
-                    <p>Organizamos torneios internos, scrims e eventos semanais para que você possa testar suas habilidades e subir de nível.</p>
+                    <div class="feature-icon">🎲</div>
+                    <h3>Sorte & Caos</h3>
+                    <p>Eventos aleatórios, noites de jogo caóticas e momentos épicos que só acontecem quando a habilidade falha, mas a sorte prevalece.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🤝</div>
-                    <h3>Comunidade Ativa</h3>
-                    <p>Um ambiente livre de toxicidade, com moderação ativa e membros dispostos a ajudar e formar equipes a qualquer hora.</p>
+                    <div class="feature-icon">💬</div>
+                    <h3>Resenha Garantida</h3>
+                    <p>Um servidor ativo 24/7, com gente de todos os lugares, pronto para formar duplas, squads ou apenas bater papo no voice.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🎁</div>
-                    <h3>Recompensas Exclusivas</h3>
-                    <p>Participe dos eventos e ganhe cargos exclusivos, destaques no site e prêmios dentro dos jogos da comunidade.</p>
+                    <div class="feature-icon">🏆</div>
+                    <h3>Torneios Zueira</h3>
+                    <p>Competições internas com regras absurdas e prêmios simbólicos. O importante não é ganhar, é participar (e rir muito).</p>
                 </div>
             </div>
         </div>
@@ -350,40 +204,32 @@
     <!-- MEMBERS SECTION -->
     <section class="members" id="members">
         <div class="container">
-            <h2 class="section-title">NOSSA EQUIPE</h2>
-            <p class="section-subtitle">Conheça os fundadores e administradores que mantêm a comunidade no topo.</p>
+            <h2 class="section-title">NOSSA STAFF</h2>
+            <p class="section-subtitle">Os sortudos que mantêm essa bagunça organizada.</p>
             
             <div class="members-grid">
-                <!-- Membro 1 -->
+                <!-- Líder 1 -->
                 <div class="member-card">
                     <div class="member-avatar">👑</div>
                     <div class="member-info">
-                        <h4>FounderName</h4>
+                        <h4>TastetheeRambo</h4>
                         <span class="member-role">Fundador</span>
                     </div>
                 </div>
-                <!-- Membro 2 -->
+                <!-- Líder 2 -->
                 <div class="member-card">
-                    <div class="member-avatar">🛡️</div>
+                    <div class="member-avatar">🎯</div>
                     <div class="member-info">
-                        <h4>AdminName</h4>
+                        <h4>ClintEastWall</h4>
                         <span class="member-role">Administrador</span>
                     </div>
                 </div>
-                <!-- Membro 3 -->
+                <!-- Líder 3 -->
                 <div class="member-card">
-                    <div class="member-avatar">⚡</div>
+                    <div class="member-avatar">🐉</div>
                     <div class="member-info">
-                        <h4>ModName</h4>
-                        <span class="member-role">Moderador</span>
-                    </div>
-                </div>
-                <!-- Membro 4 -->
-                <div class="member-card">
-                    <div class="member-avatar">🎨</div>
-                    <div class="member-info">
-                        <h4>DesignerName</h4>
-                        <span class="member-role">Designer</span>
+                        <h4>Dragon Queen</h4>
+                        <span class="member-role">Co-Fundadora</span>
                     </div>
                 </div>
             </div>
@@ -393,10 +239,61 @@
     <!-- FOOTER -->
     <footer>
         <div class="container">
-            <p>&copy; 2024 <span>The Freak Show</span>. Todos os direitos reservados.</p>
-            <p style="margin-top: 10px; font-size: 0.8rem;">Não somos afiliados a nenhuma empresa de jogos mencionada.</p>
+            <p>&copy; 2024 <span>LCKY - Zero Skill All Luck</span>. Todos os direitos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">Feito com 🍀 e muito café. Não somos afiliados a nenhuma empresa de jogos.</p>
         </div>
     </footer>
 
+    <!-- SCRIPT DO EFEITO MATRIX -->
+    <script>
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Ajusta o tamanho do canvas para a janela
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Caracteres: Katakana + Latino + Números (estilo Matrix clássico)
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        // Inicializa as gotas na posição 1
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        const draw = () => {
+            // Fundo semi-transparente para criar o efeito de rastro (fade)
+            ctx.fillStyle = 'rgba(5, 10, 7, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00ff88'; // Cor verde neon do tema
+            ctx.font = fontSize + 'px "Share Tech Mono", monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                // Reinicia a gota no topo aleatoriamente após sair da tela
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        };
+
+        // Executa a animação a cada 33ms (~30 FPS)
+        setInterval(draw, 33);
+    </script>
 </body>
 </html>
