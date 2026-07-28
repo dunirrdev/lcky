@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | LCKY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050a07;
+            --bg-card: #0d1f15;
+            --primary: #00ff88;
+            --text-main: #ffffff;
+            --text-muted: #a0bfb0;
+            --gradient: linear-gradient(135deg, var(--primary), #00cc6a);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .instructions {
+            background: rgba(0, 255, 136, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .instructions h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        .instructions ol {
+            margin-left: 20px;
+            line-height: 2;
+            color: var(--text-muted);
+        }
+
+        .form-generator {
+            background: var(--bg-card);
+            border: 2px solid rgba(0, 255, 136, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(5, 10, 7, 0.6);
+            border: 2px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            padding: 14px 28px;
+            background: var(--gradient);
+            color: #050a07;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .code-output {
+            background: #0a0f0c;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .copy-btn {
+            margin-top: 10px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 20px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .copy-btn:hover {
+            background: var(--primary);
+            color: #050a07;
+        }
+
+        .quick-add {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(0, 255, 136, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔧 LCKY Admin Panel</h1>
+        <p>Generate member profiles and manage your community</p>
+    </div>
+
+    <div class="instructions">
+        <h3>📋 How to Add New Members:</h3>
+        <ol>
+            <li>Check your email for new applications (alalessandrolemos35@gmail.com)</li>
+            <li>Fill out the form below with the member's information</li>
+            <li>Click "Generate Member Code"</li>
+            <li>Copy the generated code</li>
+            <li>Open the file <strong>data/members.js</strong> on GitHub</li>
+            <li>Paste the code before the closing bracket ]</li>
+            <li>Save and commit the changes</li>
+        </ol>
+    </div>
+
+    <div class="form-generator">
+        <h2 style="color: var(--primary); margin-bottom: 20px; font-family: 'Orbitron', sans-serif;">Add New Member</h2>
+        
+        <div class="form-group">
+            <label>Username *</label>
+            <input type="text" id="username" placeholder="ClintEastWall">
+        </div>
+
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="form-group">
+                <label>Lord Name *</label>
+                <input type="text" id="lordName" placeholder="ClintEastWall">
+            </div>
+            <div class="form-group">
+                <label>Lord ID *</label>
+                <input type="text" id="lordId" placeholder="25279746">
+            </div>
+        </div>
+
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="form-group">
+                <label>Discord Username *</label>
+                <input type="text" id="discord" placeholder="@ClintEastWall">
+            </div>
+            <div class="form-group">
+                <label>Faction *</label>
+                <select id="faction">
+                    <option value="Wilderburg">Wilderburg</option>
+                    <option value="League of Order">League of Order</option>
+                    <option value="Springwardens">Springwardens</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Avatar Emoji</label>
+            <input type="text" id="avatar" placeholder="" value="⚔️">
+        </div>
+
+        <div class="form-group">
+            <label>Role *</label>
+            <select id="role">
+                <option value="Member">Member</option>
+                <option value="Co-Founder">Co-Founder</option>
+                <option value="The Queen">The Queen</option>
+                <option value="Founder">Founder</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Status *</label>
+            <select id="status">
+                <option value="approved">Approved</option>
+                <option value="pending">Pending</option>
+                <option value="founder">Founder</option>
+            </select>
+        </div>
+
+        <h3 style="color: var(--primary); margin: 30px 0 20px; font-family: 'Orbitron', sans-serif;">Game Stats</h3>
+
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="form-group">
+                <label>Power</label>
+                <input type="number" id="power" placeholder="150000000" value="0">
+            </div>
+            <div class="form-group">
+                <label>Units Killed</label>
+                <input type="number" id="unitsKilled" placeholder="50000000" value="0">
+            </div>
+        </div>
+
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="form-group">
+                <label>Units Dead</label>
+                <input type="number" id="unitsDead" placeholder="2000000" value="0">
+            </div>
+            <div class="form-group">
+                <label>Units Healed</label>
+                <input type="number" id="unitsHealed" placeholder="80000000" value="0">
+            </div>
+        </div>
+
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="form-group">
+                <label>Merits (Last Season)</label>
+                <input type="number" id="merits" placeholder="15000000" value="0">
+            </div>
+            <div class="form-group">
+                <label>Lucky Points</label>
+                <input type="number" id="luckyPoints" placeholder="100" value="0">
+            </div>
+        </div>
+
+        <button class="btn" onclick="generateCode()" style="width: 100%; margin-top: 20px;">
+            Generate Member Code
+        </button>
+
+        <div id="codeOutput" style="display: none;">
+            <h3 style="color: var(--primary); margin: 20px 0 10px; font-family: 'Orbitron', sans-serif;">Generated Code:</h3>
+            <p style="color: var(--text-muted); margin-bottom: 10px;">Copy this and paste it in <strong>data/members.js</strong>:</p>
+            <div class="code-output" id="codeText"></div>
+            <button class="copy-btn" onclick="copyCode()">📋 Copy to Clipboard</button>
+        </div>
+    </div>
+
+    <script>
+        function generateCode() {
+            const member = {
+                username: document.getElementById('username').value,
+                avatar: document.getElementById('avatar').value || '⚔️',
+                role: document.getElementById('role').value,
+                status: document.getElementById('status').value,
+                lordName: document.getElementById('lordName').value,
+                lordId: document.getElementById('lordId').value,
+                discord: document.getElementById('discord').value,
+                faction: document.getElementById('faction').value,
+                power: parseInt(document.getElementById('power').value) || 0,
+                unitsKilled: parseInt(document.getElementById('unitsKilled').value) || 0,
+                unitsDead: parseInt(document.getElementById('unitsDead').value) || 0,
+                unitsHealed: parseInt(document.getElementById('unitsHealed').value) || 0,
+                merits: parseInt(document.getElementById('merits').value) || 0,
+                luckyPoints: parseInt(document.getElementById('luckyPoints').value) || 0,
+                joinedDate: new Date().toISOString().split('T')[0],
+                badges: [
+                    { id: "welcomed", name: "Welcomed", icon: "" }
+                ]
+            };
+
+            const code = `,
+    {
+        username: "${member.username}",
+        avatar: "${member.avatar}",
+        role: "${member.role}",
+        status: "${member.status}",
+        lordName: "${member.lordName}",
+        lordId: "${member.lordId}",
+        discord: "${member.discord}",
+        faction: "${member.faction}",
+        power: ${member.power},
+        unitsKilled: ${member.unitsKilled},
+        unitsDead: ${member.unitsDead},
+        unitsHealed: ${member.unitsHealed},
+        merits: ${member.merits},
+        luckyPoints: ${member.luckyPoints},
+        joinedDate: "${member.joinedDate}",
+        badges: [
+            { id: "welcomed", name: "Welcomed", icon: "" }
+        ]
+    }`;
+
+            document.getElementById('codeText').textContent = code;
+            document.getElementById('codeOutput').style.display = 'block';
+            document.getElementById('codeOutput').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyCode() {
+            const codeText = document.getElementById('codeText').textContent;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = '📋 Copy to Clipboard';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
