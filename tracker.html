@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCKY Lord Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050a07;
+            --bg-card: #0d1f15;
+            --primary: #00ff88;
+            --text-main: #ffffff;
+            --text-muted: #a0bfb0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        .tracker-container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        input {
+            flex: 1;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            background: var(--bg-card);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+        input:focus { border-color: var(--primary); }
+        
+        button {
+            padding: 15px 30px;
+            background: var(--primary);
+            color: #050a07;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: 0.3s;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,255,136,0.4); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .lord-card {
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 30px;
+            display: none; /* Escondido até ter dados */
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .lord-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(0,255,136,0.2);
+            padding-bottom: 20px;
+        }
+        .lord-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #050a07;
+            font-weight: 900;
+        }
+        .lord-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            text-align: left;
+        }
+        .lord-alliance {
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .stat-box {
+            background: rgba(0, 255, 136, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .error-msg {
+            color: #ff4444;
+            margin-top: 20px;
+            display: none;
+        }
+        .loading {
+            display: none;
+            color: var(--primary);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tracker-container">
+        <h1>🔍 LCKY Lord Tracker</h1>
+        
+        <div class="search-box">
+            <input type="text" id="lordIdInput" placeholder="Enter Lord ID (e.g., 12345678)">
+            <button onclick="searchLord()" id="searchBtn">Search</button>
+        </div>
+
+        <div class="loading" id="loading">Scanning the kingdom...</div>
+        <div class="error-msg" id="errorMsg">Lord not found or API error.</div>
+
+        <div class="lord-card" id="lordCard">
+            <div class="lord-header">
+                <div class="lord-avatar" id="displayAvatar">?</div>
+                <div>
+                    <div class="lord-name" id="displayName">Lord Name</div>
+                    <div class="lord-alliance">🏰 <span id="displayAlliance">Alliance</span> | Kingdom <span id="displayKingdom">0</span></div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" id="displayPower">0</div>
+                    <div class="stat-label">Total Power</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="displayKills">0</div>
+                    <div class="stat-label">Units Killed</div>
+                </div>
+            </div>
+            <div style="margin-top: 15px; font-size: 0.8rem; color: var(--text-muted);">
+                Data source: <span id="dataSource">Live API</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ SUBSTITUA PELA URL DO SEU BACKEND (ex: https://lcky-tracker.onrender.com)
+        const BACKEND_URL = 'https://SEU_SERVIDOR_BACKEND_AQUI.com'; 
+
+        async function searchLord() {
+            const lordId = document.getElementById('lordIdInput').value.trim();
+            const btn = document.getElementById('searchBtn');
+            const loading = document.getElementById('loading');
+            const errorMsg = document.getElementById('errorMsg');
+            const lordCard = document.getElementById('lordCard');
+
+            if (!lordId) return;
+
+            // Reset UI
+            btn.disabled = true;
+            btn.innerText = 'Searching...';
+            loading.style.display = 'block';
+            errorMsg.style.display = 'none';
+            lordCard.style.display = 'none';
+
+            try {
+                // Chama NOSSO backend, não o jogo diretamente
+                const response = await fetch(`${BACKEND_URL}/api/lord/${lordId}`);
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to fetch');
+                }
+
+                const data = result.data;
+
+                // Atualiza a UI com os dados
+                document.getElementById('displayName').innerText = data.username;
+                document.getElementById('displayAlliance').innerText = data.alliance;
+                document.getElementById('displayKingdom').innerText = data.kingdom;
+                document.getElementById('displayPower').innerText = Number(data.power).toLocaleString();
+                document.getElementById('displayKills').innerText = Number(data.kills).toLocaleString();
+                document.getElementById('displayAvatar').innerText = data.username.charAt(0).toUpperCase();
+                document.getElementById('dataSource').innerText = result.source === 'cache' ? 'Cached (1h)' : 'Live API';
+
+                lordCard.style.display = 'block';
+
+            } catch (error) {
+                console.error(error);
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = 'Lord not found or API is currently down.';
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Search';
+                loading.style.display = 'none';
+            }
+        }
+
+        // Permite apertar Enter para buscar
+        document.getElementById('lordIdInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') searchLord();
+        });
+    </script>
+</body>
+</html>
