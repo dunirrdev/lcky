@@ -17,7 +17,6 @@
             --text-muted: #a0bfb0;
             --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
             --error: #ff4444;
-            --success: #00ff88;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -390,11 +389,6 @@
             background: rgba(0, 255, 136, 0.1);
             border-color: var(--primary);
         }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
 
         .error-message {
             background: rgba(255, 68, 68, 0.1);
@@ -404,9 +398,17 @@
             border-radius: 8px;
             margin-bottom: 20px;
             display: none;
+            font-weight: 600;
+            text-align: center;
         }
         .error-message.active {
             display: block;
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
         @media (max-width: 768px) {
@@ -432,7 +434,6 @@
 
     <header class="header">
         <div class="header-content">
-            <!-- LINK CORRIGIDO - Aponta para index.html explicitamente -->
             <a href="index.html" class="logo">LCKY<span>.GG</span></a>
             <a href="https://discord.gg/lcky" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">
                 Join Discord →
@@ -478,11 +479,9 @@
             </div>
         </div>
 
-        <!-- FORM PARA FORMSUBMIT - EMAIL ATUALIZADO -->
         <form id="recruitmentForm" enctype="multipart/form-data" action="https://formsubmit.co/dunirrcod@gmail.com" method="POST">
             <div class="error-message" id="errorMessage"></div>
 
-            <!-- Configuração FormSubmit -->
             <input type="hidden" name="_subject" value="Nova Inscrição LCKY - Recruitment">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
@@ -492,34 +491,28 @@
             <div class="form-step active" data-step="1">
                 <div class="form-card">
                     <h2 style="color: var(--primary); margin-bottom: 25px; font-family: 'Orbitron', sans-serif;">Account Information</h2>
-                    
                     <div class="form-group">
                         <label>Lord Name <span class="required">*</span></label>
                         <input type="text" name="Lord Name" placeholder="Enter your in-game name" required>
                     </div>
-
                     <div class="form-group">
                         <label>Lord ID <span class="required">*</span></label>
                         <input type="text" name="Lord ID" placeholder="Enter your Lord ID" required>
                         <div class="example-box">
                             <strong>Where to find your Lord ID:</strong>
-                            <p>Tap on your profile icon in-game. Your Lord ID is the number shown next to your name (see example below):</p>
+                            <p>Tap on your profile icon in-game. Your Lord ID is the number shown next to your name:</p>
                             <img src="lord-id-example.png" alt="Example of where to find Lord ID">
-                            <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);"><em>Look for the number next to your name, like in the image above.</em></p>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label>Discord Username <span class="required">*</span></label>
                         <input type="text" name="Discord Username" placeholder="Example: username#1234 or @username" required>
                     </div>
-
                     <div class="form-group">
                         <label>Email <span class="required">*</span></label>
                         <input type="email" name="Email" placeholder="your.email@example.com" required>
                     </div>
                 </div>
-
                 <div class="form-navigation">
                     <div></div>
                     <button type="button" class="btn btn-primary" onclick="nextStep()">Next →</button>
@@ -530,62 +523,33 @@
             <div class="form-step" data-step="2">
                 <div class="form-card">
                     <h2 style="color: var(--primary); margin-bottom: 25px; font-family: 'Orbitron', sans-serif;">Current Alliance</h2>
-                    
                     <div class="form-group">
                         <label>Current Alliance <span class="required">*</span></label>
                         <input type="text" name="Current Alliance" placeholder="Enter your current alliance name" required>
                     </div>
-
                     <div class="form-group">
                         <label>Why are you leaving your alliance? <span class="required">*</span></label>
                         <textarea name="Why Leaving" placeholder="Tell us why you're looking for a new home..." required></textarea>
                     </div>
-
                     <div class="form-group">
                         <label>What continent are you from? <span class="required">*</span></label>
                         <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="Continent" value="Oceania" id="oceania">
-                                <label for="oceania">Oceania</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="Continent" value="Asia" id="asia">
-                                <label for="asia">Asia</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="Continent" value="Africa" id="africa">
-                                <label for="africa">Africa</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="Continent" value="Europe" id="europe">
-                                <label for="europe">Europe</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="Continent" value="North America" id="northamerica">
-                                <label for="northamerica">North America</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="Continent" value="South America" id="southamerica">
-                                <label for="southamerica">South America</label>
-                            </div>
+                            <div class="checkbox-item"><input type="checkbox" name="Continent" value="Oceania" id="oceania"><label for="oceania">Oceania</label></div>
+                            <div class="checkbox-item"><input type="checkbox" name="Continent" value="Asia" id="asia"><label for="asia">Asia</label></div>
+                            <div class="checkbox-item"><input type="checkbox" name="Continent" value="Africa" id="africa"><label for="africa">Africa</label></div>
+                            <div class="checkbox-item"><input type="checkbox" name="Continent" value="Europe" id="europe"><label for="europe">Europe</label></div>
+                            <div class="checkbox-item"><input type="checkbox" name="Continent" value="North America" id="northamerica"><label for="northamerica">North America</label></div>
+                            <div class="checkbox-item"><input type="checkbox" name="Continent" value="South America" id="southamerica"><label for="southamerica">South America</label></div>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label>Are you joining with a group? <span class="required">*</span></label>
                         <div class="radio-group">
-                            <div class="radio-item">
-                                <input type="radio" name="Joining with Group" value="Yes" id="groupYes" required>
-                                <label for="groupYes">Yes</label>
-                            </div>
-                            <div class="radio-item">
-                                <input type="radio" name="Joining with Group" value="No" id="groupNo" required>
-                                <label for="groupNo">No</label>
-                            </div>
+                            <div class="radio-item"><input type="radio" name="Joining with Group" value="Yes" id="groupYes" required><label for="groupYes">Yes</label></div>
+                            <div class="radio-item"><input type="radio" name="Joining with Group" value="No" id="groupNo" required><label for="groupNo">No</label></div>
                         </div>
                     </div>
                 </div>
-
                 <div class="form-navigation">
                     <button type="button" class="btn btn-secondary" onclick="previousStep()">← Previous</button>
                     <button type="button" class="btn btn-primary" onclick="nextStep()">Next →</button>
@@ -596,33 +560,12 @@
             <div class="form-step" data-step="3">
                 <div class="form-card">
                     <h2 style="color: var(--primary); margin-bottom: 25px; font-family: 'Orbitron', sans-serif;">Game Statistics</h2>
-                    
-                    <div class="form-group">
-                        <label>Highest Historical Power <span class="required">*</span></label>
-                        <input type="number" name="Highest Power" placeholder="Example: 200000000" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Total Units Killed <span class="required">*</span></label>
-                        <input type="number" name="Units Killed" placeholder="Example: 100000000" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Total Units Dead <span class="required">*</span></label>
-                        <input type="number" name="Units Dead" placeholder="Example: 5000000" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Total Units Healed <span class="required">*</span></label>
-                        <input type="number" name="Units Healed" placeholder="Example: 320000000" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Total Merits (previous season) <span class="required">*</span></label>
-                        <input type="number" name="Total Merits" placeholder="Example: 56000000" required>
-                    </div>
+                    <div class="form-group"><label>Highest Historical Power <span class="required">*</span></label><input type="number" name="Highest Power" placeholder="Example: 200000000" required></div>
+                    <div class="form-group"><label>Total Units Killed <span class="required">*</span></label><input type="number" name="Units Killed" placeholder="Example: 100000000" required></div>
+                    <div class="form-group"><label>Total Units Dead <span class="required">*</span></label><input type="number" name="Units Dead" placeholder="Example: 5000000" required></div>
+                    <div class="form-group"><label>Total Units Healed <span class="required">*</span></label><input type="number" name="Units Healed" placeholder="Example: 320000000" required></div>
+                    <div class="form-group"><label>Total Merits (previous season) <span class="required">*</span></label><input type="number" name="Total Merits" placeholder="Example: 56000000" required></div>
                 </div>
-
                 <div class="form-navigation">
                     <button type="button" class="btn btn-secondary" onclick="previousStep()">← Previous</button>
                     <button type="button" class="btn btn-primary" onclick="nextStep()">Next →</button>
@@ -633,47 +576,30 @@
             <div class="form-step" data-step="4">
                 <div class="form-card">
                     <h2 style="color: var(--primary); margin-bottom: 25px; font-family: 'Orbitron', sans-serif;">Activity & Availability</h2>
-                    
-                    <div class="form-group">
-                        <label>How many hours do you play on average (per day)? <span class="required">*</span></label>
-                        <input type="number" name="Hours Played Per Day" min="1" max="24" placeholder="Example: 4" required>
-                    </div>
-
+                    <div class="form-group"><label>How many hours do you play on average (per day)? <span class="required">*</span></label><input type="number" name="Hours Played Per Day" min="1" max="24" placeholder="Example: 4" required></div>
                     <div class="form-group">
                         <label>Do you have any Pilots for your account? <span class="required">*</span></label>
                         <div class="radio-group">
-                            <div class="radio-item">
-                                <input type="radio" name="Has Pilots" value="Yes" id="pilotsYes" required>
-                                <label for="pilotsYes">Yes</label>
-                            </div>
-                            <div class="radio-item">
-                                <input type="radio" name="Has Pilots" value="No" id="pilotsNo" required>
-                                <label for="pilotsNo">No</label>
-                            </div>
+                            <div class="radio-item"><input type="radio" name="Has Pilots" value="Yes" id="pilotsYes" required><label for="pilotsYes">Yes</label></div>
+                            <div class="radio-item"><input type="radio" name="Has Pilots" value="No" id="pilotsNo" required><label for="pilotsNo">No</label></div>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label>Active Hours (UTC) <span class="required">*</span></label>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">
-                            Select the hours you're typically available to play
-                        </p>
-                        
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">Select the hours you're typically available to play</p>
                         <div class="hours-grid" id="hoursGrid"></div>
                     </div>
                 </div>
-
                 <div class="form-navigation">
                     <button type="button" class="btn btn-secondary" onclick="previousStep()">← Previous</button>
                     <button type="button" class="btn btn-primary" onclick="nextStep()">Next →</button>
                 </div>
             </div>
 
-            <!-- Step 5: Army Composition -->
+            <!-- Step 5 -->
             <div class="form-step" data-step="5">
                 <div class="form-card">
                     <h2 style="color: var(--primary); margin-bottom: 25px; font-family: 'Orbitron', sans-serif;">Army Composition</h2>
-                    
                     <div class="form-group">
                         <label>Faction <span class="required">*</span></label>
                         <select name="Faction" required>
@@ -683,70 +609,39 @@
                             <option value="Springwardens">Springwardens</option>
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <label>Total amount of Infantry <span class="required">*</span></label>
-                        <input type="number" name="Infantry" placeholder="Example: 1500000" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Total amount of Mages <span class="required">*</span></label>
-                        <input type="number" name="Mages" placeholder="Example: 1500000" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Total amount of Archers <span class="required">*</span></label>
-                        <input type="number" name="Archers" placeholder="Example: 1500000" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Total amount of Cavalry <span class="required">*</span></label>
-                        <input type="number" name="Cavalry" placeholder="Example: 1500000" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Total amount of Fliers <span class="required">*</span></label>
-                        <input type="number" name="Fliers" placeholder="Example: 1500000" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Additional Comments</label>
-                        <textarea name="Additional Comments" placeholder="Anything else you'd like to tell us?"></textarea>
-                    </div>
+                    <div class="form-group"><label>Total amount of Infantry <span class="required">*</span></label><input type="number" name="Infantry" placeholder="Example: 1500000" required></div>
+                    <div class="form-group"><label>Total amount of Mages <span class="required">*</span></label><input type="number" name="Mages" placeholder="Example: 1500000" required></div>
+                    <div class="form-group"><label>Total amount of Archers <span class="required">*</span></label><input type="number" name="Archers" placeholder="Example: 1500000" required></div>
+                    <div class="form-group"><label>Total amount of Cavalry <span class="required">*</span></label><input type="number" name="Cavalry" placeholder="Example: 1500000" required></div>
+                    <div class="form-group"><label>Total amount of Fliers <span class="required">*</span></label><input type="number" name="Fliers" placeholder="Example: 1500000" required></div>
+                    <div class="form-group"><label>Additional Comments</label><textarea name="Additional Comments" placeholder="Anything else you'd like to tell us?"></textarea></div>
                 </div>
-
                 <div class="form-navigation">
                     <button type="button" class="btn btn-secondary" onclick="previousStep()">← Previous</button>
                     <button type="button" class="btn btn-primary" onclick="nextStep()">Next →</button>
                 </div>
             </div>
 
-            <!-- Step 6: File Upload -->
+            <!-- Step 6 -->
             <div class="form-step" data-step="6">
                 <div class="form-card">
                     <h2 style="color: var(--primary); margin-bottom: 25px; font-family: 'Orbitron', sans-serif;">Screenshots</h2>
-                    
                     <div class="form-group">
-                        <label style="font-size: 1rem; margin-bottom: 15px; display: block;">
-                            Please upload screenshots of your:
-                        </label>
+                        <label style="font-size: 1rem; margin-bottom: 15px; display: block;">Please upload screenshots of your:</label>
                         <ul style="color: var(--text-muted); margin-left: 20px; margin-bottom: 20px; line-height: 1.8;">
                             <li>5 main marches</li>
                             <li>In-game legion count</li>
                             <li>5 best pets</li>
                         </ul>
-                        
                         <div class="file-upload-container" id="dropZone">
                             <div class="file-upload-icon">📁</div>
                             <div class="file-upload-text">Click or drag files to this area to upload</div>
                             <div class="file-upload-hint">You can upload up to 8 files (max 10MB each)</div>
                             <input type="file" id="fileInput" name="attachment" class="file-input" multiple accept="image/*">
                         </div>
-                        
                         <div class="file-list" id="fileList"></div>
                     </div>
                 </div>
-
                 <div class="form-navigation">
                     <button type="button" class="btn btn-secondary" onclick="previousStep()">← Previous</button>
                     <button type="submit" class="btn btn-primary">Submit Application 🍀</button>
@@ -767,55 +662,33 @@
                 const column = document.createElement('div');
                 column.className = 'day-column';
                 column.innerHTML = `<h4>${day.charAt(0).toUpperCase() + day.slice(1)}</h4>`;
-                
                 for (let i = 0; i < 24; i++) {
                     const hour = i.toString().padStart(2, '0');
                     const div = document.createElement('div');
                     div.className = 'hour-item';
-                    div.innerHTML = `
-                        <input type="checkbox" name="Active Hours ${day}" value="${hour}:00 UTC" id="${day}-${hour}">
-                        <label for="${day}-${hour}">${hour}:00</label>
-                    `;
+                    div.innerHTML = `<input type="checkbox" name="Active Hours ${day}" value="${hour}:00 UTC" id="${day}-${hour}"><label for="${day}-${hour}">${hour}:00</label>`;
                     column.appendChild(div);
                 }
                 grid.appendChild(column);
             });
         }
 
-        // File Upload Handling
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
         const fileList = document.getElementById('fileList');
 
         dropZone.addEventListener('click', () => fileInput.click());
-        
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
-        
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragover');
-        });
-        
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            handleFiles(e.dataTransfer.files);
-        });
-        
-        fileInput.addEventListener('change', (e) => {
-            handleFiles(e.target.files);
-        });
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('dragover'); });
+        dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+        fileInput.addEventListener('change', (e) => { handleFiles(e.target.files); });
 
         function handleFiles(files) {
             const newFiles = Array.from(files);
-            
             if (uploadedFiles.length + newFiles.length > 8) {
                 showError('You can only upload up to 8 files total.');
                 return;
             }
-            
             newFiles.forEach(file => {
                 if (file.size > 10 * 1024 * 1024) {
                     showError(`File "${file.name}" is too large. Max size is 10MB.`);
@@ -823,7 +696,6 @@
                 }
                 uploadedFiles.push(file);
             });
-            
             updateFileList();
             updateFileInput();
         }
@@ -833,19 +705,14 @@
             uploadedFiles.forEach((file, index) => {
                 const fileItem = document.createElement('div');
                 fileItem.className = 'file-item';
-                fileItem.innerHTML = `
-                    <span class="file-name">📄 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
-                    <span class="file-remove" onclick="removeFile(${index})">×</span>
-                `;
+                fileItem.innerHTML = `<span class="file-name">📄 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span><span class="file-remove" onclick="removeFile(${index})">×</span>`;
                 fileList.appendChild(fileItem);
             });
         }
 
         function updateFileInput() {
             const dataTransfer = new DataTransfer();
-            uploadedFiles.forEach(file => {
-                dataTransfer.items.add(file);
-            });
+            uploadedFiles.forEach(file => dataTransfer.items.add(file));
             fileInput.files = dataTransfer.files;
         }
 
@@ -858,11 +725,9 @@
         function updateProgress() {
             const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
             document.getElementById('progressLine').style.width = progress + '%';
-
             document.querySelectorAll('.progress-step').forEach((step, index) => {
                 const stepNumber = index + 1;
                 step.classList.remove('active', 'completed');
-                
                 if (stepNumber === currentStep) {
                     step.classList.add('active');
                 } else if (stepNumber < currentStep) {
@@ -872,7 +737,6 @@
                     step.querySelector('.step-number').innerHTML = stepNumber;
                 }
             });
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -883,21 +747,10 @@
 
             requiredFields.forEach(field => {
                 if (field.type === 'checkbox' || field.type === 'radio') {
-                    const name = field.name;
-                    const checked = currentStepElement.querySelector(`[name="${name}"]:checked`);
-                    if (!checked) {
-                        isValid = false;
-                        field.closest('.form-group').style.border = '2px solid var(--error)';
-                        setTimeout(() => {
-                            field.closest('.form-group').style.border = 'none';
-                        }, 2000);
-                    }
+                    const checked = currentStepElement.querySelector(`[name="${field.name}"]:checked`);
+                    if (!checked) isValid = false;
                 } else if (!field.value.trim()) {
                     isValid = false;
-                    field.style.border = '2px solid var(--error)';
-                    setTimeout(() => {
-                        field.style.border = '2px solid rgba(0, 255, 136, 0.2)';
-                    }, 2000);
                 }
             });
 
@@ -927,35 +780,48 @@
             const errorDiv = document.getElementById('errorMessage');
             errorDiv.textContent = message;
             errorDiv.classList.add('active');
-            setTimeout(() => {
-                errorDiv.classList.remove('active');
-            }, 5000);
+            setTimeout(() => { errorDiv.classList.remove('active'); }, 5000);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Validação antes do submit
+        // VALIDAÇÃO FINAL ANTES DO ENVIO
         document.getElementById('recruitmentForm').addEventListener('submit', function(e) {
             const requiredFields = this.querySelectorAll('[required]');
             let isValid = true;
+            let firstInvalidField = null;
 
             requiredFields.forEach(field => {
                 if (field.type === 'checkbox' || field.type === 'radio') {
-                    const name = field.name;
-                    const checked = this.querySelector(`[name="${name}"]:checked`);
+                    const checked = this.querySelector(`[name="${field.name}"]:checked`);
                     if (!checked) {
                         isValid = false;
+                        if (!firstInvalidField) firstInvalidField = field;
                     }
                 } else if (!field.value.trim()) {
                     isValid = false;
+                    if (!firstInvalidField) firstInvalidField = field;
                 }
             });
 
             if (!isValid) {
-                e.preventDefault();
-                showError('Please fill in all required fields before submitting.');
+                e.preventDefault(); // Impede o envio
+                showError('⚠️ Please fill in all required fields before submitting.');
+                
+                // Leva o usuário automaticamente para a etapa que falta preencher
+                if (firstInvalidField) {
+                    const stepDiv = firstInvalidField.closest('.form-step');
+                    if (stepDiv) {
+                        const stepNum = parseInt(stepDiv.getAttribute('data-step'));
+                        currentStep = stepNum;
+                        document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+                        stepDiv.classList.add('active');
+                        updateProgress();
+                    }
+                }
                 return false;
             }
 
+            // Se estiver tudo válido, permite o envio normal para o FormSubmit
             return true;
         });
 
