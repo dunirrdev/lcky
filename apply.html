@@ -489,8 +489,8 @@
     </div>
 
     <script>
-        // Web3Forms Access Key
-        const ACCESS_KEY = '18ba9518-fbdb-4581-95ff-61ea1099001a';
+        // Web3Forms Access Key - NOVA CHAVE
+        const ACCESS_KEY = '651ed909-8555-49ac-97e5-c8345639ff3f';
 
         const form = document.getElementById('applicationForm');
         const fileInput = document.getElementById('fileInput');
@@ -519,7 +519,7 @@
             
             const formData = new FormData(form);
             formData.append('access_key', ACCESS_KEY);
-            formData.append('subject', ' New LCKY Recruitment Application');
+            formData.append('subject', '🍀 New LCKY Recruitment Application');
             
             try {
                 const response = await fetch('https://api.web3forms.com/submit', {
@@ -535,7 +535,6 @@
                     form.reset();
                     fileList.innerHTML = '';
                     
-                    // Redirect after 3 seconds
                     setTimeout(() => {
                         window.location.href = 'success.html';
                     }, 3000);
