@@ -86,7 +86,7 @@
             display: flex;
             justify-content: space-between;
             position: relative;
-            max-width: 700px;
+            max-width: 900px;
             margin: 0 auto;
         }
         .progress-line {
@@ -137,7 +137,7 @@
             color: #050a07;
         }
         .step-label {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             text-align: center;
         }
@@ -219,6 +219,12 @@
             display: block;
             margin-bottom: 8px;
         }
+        .example-box img {
+            max-width: 100%;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+        }
 
         .checkbox-group,
         .radio-group {
@@ -257,8 +263,8 @@
 
         .hours-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
             margin-top: 20px;
         }
         .day-column {
@@ -270,20 +276,82 @@
         .day-column h4 {
             color: var(--primary);
             margin-bottom: 12px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-align: center;
         }
         .hour-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
+            margin-bottom: 6px;
+            font-size: 0.8rem;
         }
         .hour-item input[type="checkbox"] {
             width: 16px;
             height: 16px;
             accent-color: var(--primary);
+        }
+
+        .file-upload-container {
+            border: 2px dashed rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            background: rgba(5, 10, 7, 0.6);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .file-upload-container:hover {
+            border-color: var(--primary);
+            background: rgba(0, 255, 136, 0.05);
+        }
+        .file-upload-container.dragover {
+            border-color: var(--primary);
+            background: rgba(0, 255, 136, 0.1);
+        }
+        .file-upload-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        .file-upload-text {
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        .file-upload-hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .file-input {
+            display: none;
+        }
+        .file-list {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        .file-name {
+            color: var(--text-main);
+            font-size: 0.9rem;
+            flex: 1;
+        }
+        .file-remove {
+            color: var(--error);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0 8px;
+        }
+        .file-remove:hover {
+            color: #ff6666;
         }
 
         .form-navigation {
@@ -392,16 +460,19 @@
         @media (max-width: 768px) {
             .form-header h1 { font-size: 1.8rem; }
             .form-card { padding: 25px; }
-            .progress-step .step-label { font-size: 0.75rem; }
-            .step-number { width: 36px; height: 36px; font-size: 0.9rem; }
-            .hours-grid { grid-template-columns: 1fr; }
+            .step-label { font-size: 0.65rem; }
+            .step-number { width: 36px; height: 36px; font-size: 0.85rem; }
+            .hours-grid { grid-template-columns: repeat(2, 1fr); }
             .form-navigation { flex-direction: column; }
             .btn { width: 100%; }
+            .progress-bar { overflow-x: auto; }
         }
 
         @media (max-width: 480px) {
             .container { padding: 20px 15px; }
             .form-card { padding: 20px; }
+            .hours-grid { grid-template-columns: 1fr; }
+            .step-label { display: none; }
         }
     </style>
 </head>
@@ -419,7 +490,7 @@
     <div class="container">
         <div class="form-header">
             <h1>LCKY Recruitment Form</h1>
-            <p>Join the elite. Zero Skill, All Luck. </p>
+            <p>Join the elite. Zero Skill, All Luck.</p>
         </div>
 
         <div class="progress-container">
@@ -429,7 +500,7 @@
                 </div>
                 <div class="progress-step active" data-step="1">
                     <div class="step-number">1</div>
-                    <div class="step-label">Account Info</div>
+                    <div class="step-label">Account</div>
                 </div>
                 <div class="progress-step" data-step="2">
                     <div class="step-number">2</div>
@@ -447,10 +518,14 @@
                     <div class="step-number">5</div>
                     <div class="step-label">Army</div>
                 </div>
+                <div class="progress-step" data-step="6">
+                    <div class="step-number">6</div>
+                    <div class="step-label">Screenshots</div>
+                </div>
             </div>
         </div>
 
-        <form id="recruitmentForm">
+        <form id="recruitmentForm" enctype="multipart/form-data">
             <div class="error-message" id="errorMessage"></div>
 
             <!-- Step 1 -->
@@ -468,7 +543,9 @@
                         <input type="text" name="lordId" placeholder="Enter your Lord ID" required>
                         <div class="example-box">
                             <strong>Where to find your Lord ID:</strong>
-                            <p>Tap on your profile icon in-game. Your Lord ID is the number shown next to your name.</p>
+                            <p>Tap on your profile icon in-game. Your Lord ID is the number shown next to your name (see example below):</p>
+                            <img src="https://i.imgur.com/example-lord-id.png" alt="Example of where to find Lord ID" style="max-width: 100%; border-radius: 6px; margin-top: 10px;">
+                            <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);"><em>Look for the number next to your name, like in the image above.</em></p>
                         </div>
                     </div>
 
@@ -669,13 +746,45 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Total amount of flying <span class="required">*</span></label>
+                        <label>Total amount of Fliers <span class="required">*</span></label>
                         <input type="number" name="fliers" placeholder="Example: 1500000" required>
                     </div>
 
                     <div class="form-group">
                         <label>Additional Comments</label>
                         <textarea name="comments" placeholder="Anything else you'd like to tell us?"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep()">← Previous</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Next →</button>
+                </div>
+            </div>
+
+            <!-- Step 6: File Upload -->
+            <div class="form-step" data-step="6">
+                <div class="form-card">
+                    <h2 style="color: var(--primary); margin-bottom: 25px; font-family: 'Orbitron', sans-serif;">Screenshots</h2>
+                    
+                    <div class="form-group">
+                        <label style="font-size: 1rem; margin-bottom: 15px; display: block;">
+                            Please upload screenshots of your:
+                        </label>
+                        <ul style="color: var(--text-muted); margin-left: 20px; margin-bottom: 20px; line-height: 1.8;">
+                            <li>5 main marches</li>
+                            <li>In-game legion count</li>
+                            <li>5 best pets</li>
+                        </ul>
+                        
+                        <div class="file-upload-container" id="dropZone">
+                            <div class="file-upload-icon"></div>
+                            <div class="file-upload-text">Click or drag files to this area to upload</div>
+                            <div class="file-upload-hint">You can upload up to 8 files (max 5MB each)</div>
+                            <input type="file" id="fileInput" class="file-input" multiple accept="image/*" max="8">
+                        </div>
+                        
+                        <div class="file-list" id="fileList"></div>
                     </div>
                 </div>
 
@@ -689,10 +798,11 @@
         <div class="loading" id="loading">
             <div class="spinner"></div>
             <p>Submitting your application...</p>
+            <p style="font-size: 0.9rem; margin-top: 10px; color: var(--text-muted);">Please wait, this may take a moment.</p>
         </div>
 
         <div class="success-message" id="successMessage">
-            <div class="success-icon">🍀</div>
+            <div class="success-icon"></div>
             <h2>Application Submitted!</h2>
             <p>Thanks for joining LCKY! We'll review your application and contact you on Discord soon.</p>
             <p style="font-size: 0.95rem;">Zero Skill, All Luck. Welcome to the family!</p>
@@ -701,23 +811,18 @@
     </div>
 
     <script>
-        // CONFIGURATION - UPDATE THESE VALUES
+        // CONFIGURATION
         const CONFIG = {
-            // Google Apps Script Web App URL (get from Step 2 below)
             GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbz7mWG4HIGW4IwNXqAu0RwJ4JzZsNm21Y8wzgMFOYa4jFCLAdglP2P5JeH-UDRA96Wgcg/exec',
-            
-            // Discord Webhook URL (optional - get from Discord server settings)
             DISCORD_WEBHOOK_URL: 'https://discord.com/api/webhooks/1531545345966870639/vXWLm_2L37R99X3JWIgMLJ534dicRGCpwmOcq4LFUODrsXHnAWiT-WR75eu19vIjmlWZ',
-            
-            // Set to true to use Discord webhook, false to use Google Sheets only
             USE_DISCORD_WEBHOOK: true
         };
 
         let currentStep = 1;
-        const totalSteps = 5;
+        const totalSteps = 6;
         const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        let uploadedFiles = [];
 
-        // Generate hour checkboxes
         function generateHoursGrid() {
             const grid = document.getElementById('hoursGrid');
             days.forEach(day => {
@@ -737,6 +842,68 @@
                 }
                 grid.appendChild(column);
             });
+        }
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            const newFiles = Array.from(files);
+            
+            if (uploadedFiles.length + newFiles.length > 8) {
+                showError('You can only upload up to 8 files total.');
+                return;
+            }
+            
+            newFiles.forEach(file => {
+                if (file.size > 5 * 1024 * 1024) {
+                    showError(`File "${file.name}" is too large. Max size is 5MB.`);
+                    return;
+                }
+                uploadedFiles.push(file);
+            });
+            
+            updateFileList();
+        }
+
+        function updateFileList() {
+            fileList.innerHTML = '';
+            uploadedFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <span class="file-name">📄 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                    <span class="file-remove" onclick="removeFile(${index})">×</span>
+                `;
+                fileList.appendChild(fileItem);
+            });
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            updateFileList();
         }
 
         function updateProgress() {
@@ -837,6 +1004,7 @@
             });
             data.hours = hours;
 
+            data.fileCount = uploadedFiles.length;
             data.submittedAt = new Date().toISOString();
             
             return data;
@@ -874,7 +1042,7 @@
                     { name: "Units Killed", value: data.unitsKilled || 'N/A', inline: true },
                     { name: "Hours/Day", value: data.hoursPlayed || 'N/A', inline: true },
                     { name: "Faction", value: data.faction || 'N/A', inline: true },
-                    { name: "Joining with Group", value: data.joiningGroup || 'N/A', inline: true }
+                    { name: "Screenshots", value: `${data.fileCount || 0} files uploaded`, inline: true }
                 ],
                 timestamp: new Date().toISOString(),
                 footer: {
@@ -893,7 +1061,7 @@
                 return true;
             } catch (error) {
                 console.error('Discord webhook error:', error);
-                throw error;
+                return false;
             }
         }
 
@@ -909,17 +1077,12 @@
             const formData = collectFormData();
             
             try {
-                // Submit to Google Sheets
-                if (CONFIG.GOOGLE_SCRIPT_URL !== 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
-                    await submitToGoogleSheets(formData);
-                }
+                await submitToGoogleSheets(formData);
                 
-                // Submit to Discord
-                if (CONFIG.USE_DISCORD_WEBHOOK && CONFIG.DISCORD_WEBHOOK_URL !== 'YOUR_DISCORD_WEBHOOK_URL_HERE') {
+                if (CONFIG.USE_DISCORD_WEBHOOK) {
                     await submitToDiscord(formData);
                 }
                 
-                // Show success
                 form.style.display = 'none';
                 document.querySelector('.progress-container').style.display = 'none';
                 loading.classList.remove('active');
@@ -933,7 +1096,6 @@
             }
         });
 
-        // Initialize
         generateHoursGrid();
         updateProgress();
     </script>
