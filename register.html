@@ -292,21 +292,66 @@
             accent-color: var(--primary);
         }
 
-        .info-box {
+        .file-upload-container {
+            border: 2px dashed rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            background: rgba(5, 10, 7, 0.6);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .file-upload-container:hover {
+            border-color: var(--primary);
+            background: rgba(0, 255, 136, 0.05);
+        }
+        .file-upload-container.dragover {
+            border-color: var(--primary);
             background: rgba(0, 255, 136, 0.1);
-            border-left: 4px solid var(--primary);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
         }
-        .info-box h3 {
+        .file-upload-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
             color: var(--primary);
-            margin-bottom: 10px;
-            font-family: 'Orbitron', sans-serif;
         }
-        .info-box p {
+        .file-upload-text {
             color: var(--text-muted);
-            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .file-upload-hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .file-input {
+            display: none;
+        }
+        .file-list {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        .file-name {
+            color: var(--text-main);
+            font-size: 0.9rem;
+            flex: 1;
+        }
+        .file-remove {
+            color: var(--error);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0 8px;
+        }
+        .file-remove:hover {
+            color: #ff6666;
         }
 
         .form-navigation {
@@ -396,22 +441,7 @@
         .success-message p {
             color: var(--text-muted);
             font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
-        .success-message .discord-link {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 24px;
-            background: #5865F2;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .success-message .discord-link:hover {
-            background: #4752C4;
-            transform: translateY(-2px);
+            margin-bottom: 30px;
         }
 
         .error-message {
@@ -488,11 +518,22 @@
                     <div class="step-number">5</div>
                     <div class="step-label">Army</div>
                 </div>
+                <div class="progress-step" data-step="6">
+                    <div class="step-number">6</div>
+                    <div class="step-label">Screenshots</div>
+                </div>
             </div>
         </div>
 
-        <form id="recruitmentForm">
+        <!-- FORM PARA FORMSUBMIT -->
+        <form id="recruitmentForm" enctype="multipart/form-data" action="https://formsubmit.co/SEU_EMAIL_AQUI" method="POST">
             <div class="error-message" id="errorMessage"></div>
+
+            <!-- Configuração FormSubmit -->
+            <input type="hidden" name="_subject" value="Nova Inscrição LCKY - Recruitment">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://dunirrdev.github.io/lcky/success.html">
 
             <!-- Step 1 -->
             <div class="form-step active" data-step="1">
@@ -501,12 +542,12 @@
                     
                     <div class="form-group">
                         <label>Lord Name <span class="required">*</span></label>
-                        <input type="text" name="lordName" placeholder="Enter your in-game name" required>
+                        <input type="text" name="Lord Name" placeholder="Enter your in-game name" required>
                     </div>
 
                     <div class="form-group">
                         <label>Lord ID <span class="required">*</span></label>
-                        <input type="text" name="lordId" placeholder="Enter your Lord ID" required>
+                        <input type="text" name="Lord ID" placeholder="Enter your Lord ID" required>
                         <div class="example-box">
                             <strong>Where to find your Lord ID:</strong>
                             <p>Tap on your profile icon in-game. Your Lord ID is the number shown next to your name (see example below):</p>
@@ -517,12 +558,12 @@
 
                     <div class="form-group">
                         <label>Discord Username <span class="required">*</span></label>
-                        <input type="text" name="discordUsername" placeholder="Example: username#1234 or @username" required>
+                        <input type="text" name="Discord Username" placeholder="Example: username#1234 or @username" required>
                     </div>
 
                     <div class="form-group">
                         <label>Email <span class="required">*</span></label>
-                        <input type="email" name="email" placeholder="your.email@example.com" required>
+                        <input type="email" name="Email" placeholder="your.email@example.com" required>
                     </div>
                 </div>
 
@@ -539,39 +580,39 @@
                     
                     <div class="form-group">
                         <label>Current Alliance <span class="required">*</span></label>
-                        <input type="text" name="currentAlliance" placeholder="Enter your current alliance name" required>
+                        <input type="text" name="Current Alliance" placeholder="Enter your current alliance name" required>
                     </div>
 
                     <div class="form-group">
                         <label>Why are you leaving your alliance? <span class="required">*</span></label>
-                        <textarea name="leavingReason" placeholder="Tell us why you're looking for a new home..." required></textarea>
+                        <textarea name="Why Leaving" placeholder="Tell us why you're looking for a new home..." required></textarea>
                     </div>
 
                     <div class="form-group">
                         <label>What continent are you from? <span class="required">*</span></label>
                         <div class="checkbox-group">
                             <div class="checkbox-item">
-                                <input type="checkbox" name="continent" value="Oceania" id="oceania">
+                                <input type="checkbox" name="Continent" value="Oceania" id="oceania">
                                 <label for="oceania">Oceania</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="continent" value="Asia" id="asia">
+                                <input type="checkbox" name="Continent" value="Asia" id="asia">
                                 <label for="asia">Asia</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="continent" value="Africa" id="africa">
+                                <input type="checkbox" name="Continent" value="Africa" id="africa">
                                 <label for="africa">Africa</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="continent" value="Europe" id="europe">
+                                <input type="checkbox" name="Continent" value="Europe" id="europe">
                                 <label for="europe">Europe</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="continent" value="North America" id="northamerica">
+                                <input type="checkbox" name="Continent" value="North America" id="northamerica">
                                 <label for="northamerica">North America</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" name="continent" value="South America" id="southamerica">
+                                <input type="checkbox" name="Continent" value="South America" id="southamerica">
                                 <label for="southamerica">South America</label>
                             </div>
                         </div>
@@ -581,11 +622,11 @@
                         <label>Are you joining with a group? <span class="required">*</span></label>
                         <div class="radio-group">
                             <div class="radio-item">
-                                <input type="radio" name="joiningGroup" value="Yes" id="groupYes" required>
+                                <input type="radio" name="Joining with Group" value="Yes" id="groupYes" required>
                                 <label for="groupYes">Yes</label>
                             </div>
                             <div class="radio-item">
-                                <input type="radio" name="joiningGroup" value="No" id="groupNo" required>
+                                <input type="radio" name="Joining with Group" value="No" id="groupNo" required>
                                 <label for="groupNo">No</label>
                             </div>
                         </div>
@@ -605,27 +646,27 @@
                     
                     <div class="form-group">
                         <label>Highest Historical Power <span class="required">*</span></label>
-                        <input type="number" name="highestPower" placeholder="Example: 200000000" required>
+                        <input type="number" name="Highest Power" placeholder="Example: 200000000" required>
                     </div>
 
                     <div class="form-group">
                         <label>Total Units Killed <span class="required">*</span></label>
-                        <input type="number" name="unitsKilled" placeholder="Example: 100000000" required>
+                        <input type="number" name="Units Killed" placeholder="Example: 100000000" required>
                     </div>
 
                     <div class="form-group">
                         <label>Total Units Dead <span class="required">*</span></label>
-                        <input type="number" name="unitsDead" placeholder="Example: 5000000" required>
+                        <input type="number" name="Units Dead" placeholder="Example: 5000000" required>
                     </div>
 
                     <div class="form-group">
                         <label>Total Units Healed <span class="required">*</span></label>
-                        <input type="number" name="unitsHealed" placeholder="Example: 320000000" required>
+                        <input type="number" name="Units Healed" placeholder="Example: 320000000" required>
                     </div>
 
                     <div class="form-group">
                         <label>Total Merits (previous season) <span class="required">*</span></label>
-                        <input type="number" name="totalMerits" placeholder="Example: 56000000" required>
+                        <input type="number" name="Total Merits" placeholder="Example: 56000000" required>
                     </div>
                 </div>
 
@@ -642,18 +683,18 @@
                     
                     <div class="form-group">
                         <label>How many hours do you play on average (per day)? <span class="required">*</span></label>
-                        <input type="number" name="hoursPlayed" min="1" max="24" placeholder="Example: 4" required>
+                        <input type="number" name="Hours Played Per Day" min="1" max="24" placeholder="Example: 4" required>
                     </div>
 
                     <div class="form-group">
                         <label>Do you have any Pilots for your account? <span class="required">*</span></label>
                         <div class="radio-group">
                             <div class="radio-item">
-                                <input type="radio" name="hasPilots" value="Yes" id="pilotsYes" required>
+                                <input type="radio" name="Has Pilots" value="Yes" id="pilotsYes" required>
                                 <label for="pilotsYes">Yes</label>
                             </div>
                             <div class="radio-item">
-                                <input type="radio" name="hasPilots" value="No" id="pilotsNo" required>
+                                <input type="radio" name="Has Pilots" value="No" id="pilotsNo" required>
                                 <label for="pilotsNo">No</label>
                             </div>
                         </div>
@@ -675,14 +716,14 @@
                 </div>
             </div>
 
-            <!-- Step 5: Army Composition (FINAL STEP) -->
+            <!-- Step 5: Army Composition -->
             <div class="form-step" data-step="5">
                 <div class="form-card">
                     <h2 style="color: var(--primary); margin-bottom: 25px; font-family: 'Orbitron', sans-serif;">Army Composition</h2>
                     
                     <div class="form-group">
                         <label>Faction <span class="required">*</span></label>
-                        <select name="faction" required>
+                        <select name="Faction" required>
                             <option value="">Select your faction</option>
                             <option value="Wilderburg">Wilderburg</option>
                             <option value="League of Order">League of Order</option>
@@ -692,44 +733,65 @@
 
                     <div class="form-group">
                         <label>Total amount of Infantry <span class="required">*</span></label>
-                        <input type="number" name="infantry" placeholder="Example: 1500000" required>
+                        <input type="number" name="Infantry" placeholder="Example: 1500000" required>
                     </div>
 
                     <div class="form-group">
                         <label>Total amount of Mages <span class="required">*</span></label>
-                        <input type="number" name="mages" placeholder="Example: 1500000" required>
+                        <input type="number" name="Mages" placeholder="Example: 1500000" required>
                     </div>
 
                     <div class="form-group">
                         <label>Total amount of Archers <span class="required">*</span></label>
-                        <input type="number" name="archers" placeholder="Example: 1500000" required>
+                        <input type="number" name="Archers" placeholder="Example: 1500000" required>
                     </div>
 
                     <div class="form-group">
                         <label>Total amount of Cavalry <span class="required">*</span></label>
-                        <input type="number" name="cavalry" placeholder="Example: 1500000" required>
+                        <input type="number" name="Cavalry" placeholder="Example: 1500000" required>
                     </div>
 
                     <div class="form-group">
                         <label>Total amount of Fliers <span class="required">*</span></label>
-                        <input type="number" name="fliers" placeholder="Example: 1500000" required>
+                        <input type="number" name="Fliers" placeholder="Example: 1500000" required>
                     </div>
 
                     <div class="form-group">
                         <label>Additional Comments</label>
-                        <textarea name="comments" placeholder="Anything else you'd like to tell us?"></textarea>
+                        <textarea name="Additional Comments" placeholder="Anything else you'd like to tell us?"></textarea>
                     </div>
                 </div>
 
-                <div class="info-box">
-                    <h3>📸 Screenshots</h3>
-                    <p><strong>After submitting this form,</strong> please send your screenshots to our Discord server:</p>
-                    <ul style="margin: 15px 0; padding-left: 20px; color: var(--text-muted);">
-                        <li>5 main marches</li>
-                        <li>In-game legion count</li>
-                        <li>5 best pets</li>
-                    </ul>
-                    <p>Send them in a DM to any of our leaders or in the #recruitment channel.</p>
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep()">← Previous</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Next →</button>
+                </div>
+            </div>
+
+            <!-- Step 6: File Upload -->
+            <div class="form-step" data-step="6">
+                <div class="form-card">
+                    <h2 style="color: var(--primary); margin-bottom: 25px; font-family: 'Orbitron', sans-serif;">Screenshots</h2>
+                    
+                    <div class="form-group">
+                        <label style="font-size: 1rem; margin-bottom: 15px; display: block;">
+                            Please upload screenshots of your:
+                        </label>
+                        <ul style="color: var(--text-muted); margin-left: 20px; margin-bottom: 20px; line-height: 1.8;">
+                            <li>5 main marches</li>
+                            <li>In-game legion count</li>
+                            <li>5 best pets</li>
+                        </ul>
+                        
+                        <div class="file-upload-container" id="dropZone">
+                            <div class="file-upload-icon">📁</div>
+                            <div class="file-upload-text">Click or drag files to this area to upload</div>
+                            <div class="file-upload-hint">You can upload up to 8 files (max 10MB each)</div>
+                            <input type="file" id="fileInput" name="attachment" class="file-input" multiple accept="image/*" max="8">
+                        </div>
+                        
+                        <div class="file-list" id="fileList"></div>
+                    </div>
                 </div>
 
                 <div class="form-navigation">
@@ -749,35 +811,16 @@
             <div class="success-icon">🍀</div>
             <h2>Application Submitted!</h2>
             <p>Thanks for joining LCKY! We'll review your application and contact you on Discord soon.</p>
-            
-            <div class="info-box" style="margin: 30px 0;">
-                <h3>📸 Next Step: Send Your Screenshots</h3>
-                <p>Please send your screenshots to our Discord server:</p>
-                <ul style="margin: 15px 0; padding-left: 20px;">
-                    <li>5 main marches</li>
-                    <li>In-game legion count</li>
-                    <li>5 best pets</li>
-                </ul>
-            </div>
-            
-            <a href="https://discord.gg/lcky" target="_blank" class="discord-link">Join Our Discord →</a>
-            
-            <p style="margin-top: 30px; font-size: 0.95rem;">Zero Skill, All Luck. Welcome to the family!</p>
-            <a href="/" class="btn btn-secondary" style="margin-top: 20px; display: inline-block;">Back to Home</a>
+            <p style="font-size: 0.95rem;">Zero Skill, All Luck. Welcome to the family!</p>
+            <a href="/" class="btn btn-primary" style="margin-top: 20px; display: inline-block;">Back to Home</a>
         </div>
     </div>
 
     <script>
-        // CONFIGURATION
-        const CONFIG = {
-            GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbz7mWG4HIGW4IwNXqAu0RwJ4JzZsNm21Y8wzgMFOYa4jFCLAdglP2P5JeH-UDRA96Wgcg/exec',
-            DISCORD_WEBHOOK_URL: 'https://discord.com/api/webhooks/1531545345966870639/vXWLm_2L37R99X3JWIgMLJ534dicRGCpwmOcq4LFUODrsXHnAWiT-WR75eu19vIjmlWZ',
-            USE_DISCORD_WEBHOOK: true
-        };
-
         let currentStep = 1;
-        const totalSteps = 5;
+        const totalSteps = 6;
         const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        let uploadedFiles = [];
 
         function generateHoursGrid() {
             const grid = document.getElementById('hoursGrid');
@@ -791,13 +834,76 @@
                     const div = document.createElement('div');
                     div.className = 'hour-item';
                     div.innerHTML = `
-                        <input type="checkbox" name="hours-${day}" value="${hour}:00 UTC" id="${day}-${hour}">
+                        <input type="checkbox" name="Active Hours ${day}" value="${hour}:00 UTC" id="${day}-${hour}">
                         <label for="${day}-${hour}">${hour}:00</label>
                     `;
                     column.appendChild(div);
                 }
                 grid.appendChild(column);
             });
+        }
+
+        // File Upload Handling
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            const newFiles = Array.from(files);
+            
+            if (uploadedFiles.length + newFiles.length > 8) {
+                showError('You can only upload up to 8 files total.');
+                return;
+            }
+            
+            newFiles.forEach(file => {
+                if (file.size > 10 * 1024 * 1024) {
+                    showError(`File "${file.name}" is too large. Max size is 10MB.`);
+                    return;
+                }
+                uploadedFiles.push(file);
+            });
+            
+            updateFileList();
+        }
+
+        function updateFileList() {
+            fileList.innerHTML = '';
+            uploadedFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <span class="file-name">📄 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                    <span class="file-remove" onclick="removeFile(${index})">×</span>
+                `;
+                fileList.appendChild(fileItem);
+            });
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            updateFileList();
         }
 
         function updateProgress() {
@@ -878,119 +984,12 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function collectFormData() {
-            const formData = new FormData(document.getElementById('recruitmentForm'));
-            const data = Object.fromEntries(formData.entries());
-            
-            const continents = [];
-            document.querySelectorAll('input[name="continent"]:checked').forEach(cb => {
-                continents.push(cb.value);
-            });
-            data.continents = continents.join(', ');
-
-            const hours = {};
-            days.forEach(day => {
-                const dayHours = [];
-                document.querySelectorAll(`input[name="hours-${day}"]:checked`).forEach(cb => {
-                    dayHours.push(cb.value);
-                });
-                hours[day] = dayHours.join(', ');
-            });
-            data.hours = hours;
-
-            data.submittedAt = new Date().toISOString();
-            
-            return data;
-        }
-
-        async function submitToGoogleSheets(data) {
-            try {
-                const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-                return true;
-            } catch (error) {
-                console.error('Google Sheets error:', error);
-                throw error;
-            }
-        }
-
-        async function submitToDiscord(data) {
-            const embed = {
-                title: " New LCKY Recruitment Application",
-                color: 0x00ff88,
-                fields: [
-                    { name: "Lord Name", value: data.lordName, inline: true },
-                    { name: "Lord ID", value: data.lordId, inline: true },
-                    { name: "Discord", value: data.discordUsername, inline: true },
-                    { name: "Email", value: data.email, inline: true },
-                    { name: "Current Alliance", value: data.currentAlliance || 'N/A', inline: true },
-                    { name: "Continent", value: data.continents || 'N/A', inline: true },
-                    { name: "Highest Power", value: data.highestPower || 'N/A', inline: true },
-                    { name: "Units Killed", value: data.unitsKilled || 'N/A', inline: true },
-                    { name: "Hours/Day", value: data.hoursPlayed || 'N/A', inline: true },
-                    { name: "Faction", value: data.faction || 'N/A', inline: true },
-                    { name: "Infantry", value: data.infantry || 'N/A', inline: true },
-                    { name: "Mages", value: data.mages || 'N/A', inline: true }
-                ],
-                timestamp: new Date().toISOString(),
-                footer: {
-                    text: "LCKY Recruitment System - Screenshots will be sent via Discord DM"
-                }
-            };
-
-            try {
-                await fetch(CONFIG.DISCORD_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ embeds: [embed] })
-                });
-                return true;
-            } catch (error) {
-                console.error('Discord webhook error:', error);
-                return false;
-            }
-        }
-
-        document.getElementById('recruitmentForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
+        // Form Submission
+        document.getElementById('recruitmentForm').addEventListener('submit', function(e) {
+            // FormSubmit.co handles the submission automatically
+            // Just show loading
             const loading = document.getElementById('loading');
-            const successMessage = document.getElementById('successMessage');
-            const form = document.getElementById('recruitmentForm');
-            
             loading.classList.add('active');
-            
-            const formData = collectFormData();
-            
-            try {
-                // Submit to Google Sheets
-                await submitToGoogleSheets(formData);
-                
-                // Submit to Discord
-                if (CONFIG.USE_DISCORD_WEBHOOK) {
-                    await submitToDiscord(formData);
-                }
-                
-                // Show success
-                form.style.display = 'none';
-                document.querySelector('.progress-container').style.display = 'none';
-                loading.classList.remove('active');
-                successMessage.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-            } catch (error) {
-                console.error('Submission error:', error);
-                loading.classList.remove('active');
-                showError('There was an error submitting your application. Please try again or contact us on Discord.');
-            }
         });
 
         generateHoursGrid();
