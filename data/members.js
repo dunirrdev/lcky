@@ -6,7 +6,7 @@ let members = [];
 async function loadMembers() {
     try {
         // ⚠️ SUBSTITUA ESTE LINK PELO SEU LINK DO GOOGLE SHEETS CSV
-        const sheetUrl = 'https://docs.google.com/spreadsheets/d/SEU_ID_DA_PLANILHA/export?format=csv&gid=0';
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/https://docs.google.com/spreadsheets/d/e/2PACX-1vSmdyqNjegLdYF4OJOk2EDm0Len7j8ToL7M2W7cL11a6kNSY-AQRCJGxSTg22N5SPo_OISrpprWizJ9/pub?output=csv/export?format=csv&gid=0';
         
         const response = await fetch(sheetUrl);
         const csvText = await response.text();
