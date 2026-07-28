@@ -292,66 +292,21 @@
             accent-color: var(--primary);
         }
 
-        .file-upload-container {
-            border: 2px dashed rgba(0, 255, 136, 0.3);
-            border-radius: 12px;
-            padding: 40px 20px;
-            text-align: center;
-            background: rgba(5, 10, 7, 0.6);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .file-upload-container:hover {
-            border-color: var(--primary);
-            background: rgba(0, 255, 136, 0.05);
-        }
-        .file-upload-container.dragover {
-            border-color: var(--primary);
+        .info-box {
             background: rgba(0, 255, 136, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
-        .file-upload-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+        .info-box h3 {
             color: var(--primary);
-        }
-        .file-upload-text {
-            color: var(--text-muted);
             margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
         }
-        .file-upload-hint {
-            font-size: 0.85rem;
+        .info-box p {
             color: var(--text-muted);
-        }
-        .file-input {
-            display: none;
-        }
-        .file-list {
-            margin-top: 20px;
-            text-align: left;
-        }
-        .file-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 15px;
-            background: rgba(0, 255, 136, 0.05);
-            border-radius: 6px;
-            margin-bottom: 8px;
-            border: 1px solid rgba(0, 255, 136, 0.1);
-        }
-        .file-name {
-            color: var(--text-main);
-            font-size: 0.9rem;
-            flex: 1;
-        }
-        .file-remove {
-            color: var(--error);
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: 0 8px;
-        }
-        .file-remove:hover {
-            color: #ff6666;
+            line-height: 1.6;
         }
 
         .form-navigation {
@@ -441,7 +396,22 @@
         .success-message p {
             color: var(--text-muted);
             font-size: 1.1rem;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+        }
+        .success-message .discord-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #5865F2;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .success-message .discord-link:hover {
+            background: #4752C4;
+            transform: translateY(-2px);
         }
 
         .error-message {
@@ -518,14 +488,10 @@
                     <div class="step-number">5</div>
                     <div class="step-label">Army</div>
                 </div>
-                <div class="progress-step" data-step="6">
-                    <div class="step-number">6</div>
-                    <div class="step-label">Screenshots</div>
-                </div>
             </div>
         </div>
 
-        <form id="recruitmentForm" enctype="multipart/form-data">
+        <form id="recruitmentForm">
             <div class="error-message" id="errorMessage"></div>
 
             <!-- Step 1 -->
@@ -709,7 +675,7 @@
                 </div>
             </div>
 
-            <!-- Step 5 -->
+            <!-- Step 5: Army Composition (FINAL STEP) -->
             <div class="form-step" data-step="5">
                 <div class="form-card">
                     <h2 style="color: var(--primary); margin-bottom: 25px; font-family: 'Orbitron', sans-serif;">Army Composition</h2>
@@ -718,10 +684,9 @@
                         <label>Faction <span class="required">*</span></label>
                         <select name="faction" required>
                             <option value="">Select your faction</option>
-                            <option value="Human">Human</option>
-                            <option value="Orc">Orc</option>
-                            <option value="Elf">Elf</option>
-                            <option value="Undead">Undead</option>
+                            <option value="Wilderburg">Wilderburg</option>
+                            <option value="League of Order">League of Order</option>
+                            <option value="Springwardens">Springwardens</option>
                         </select>
                     </div>
 
@@ -746,7 +711,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Total amount of flying <span class="required">*</span></label>
+                        <label>Total amount of Fliers <span class="required">*</span></label>
                         <input type="number" name="fliers" placeholder="Example: 1500000" required>
                     </div>
 
@@ -756,36 +721,15 @@
                     </div>
                 </div>
 
-                <div class="form-navigation">
-                    <button type="button" class="btn btn-secondary" onclick="previousStep()">← Previous</button>
-                    <button type="button" class="btn btn-primary" onclick="nextStep()">Next →</button>
-                </div>
-            </div>
-
-            <!-- Step 6: File Upload -->
-            <div class="form-step" data-step="6">
-                <div class="form-card">
-                    <h2 style="color: var(--primary); margin-bottom: 25px; font-family: 'Orbitron', sans-serif;">Screenshots</h2>
-                    
-                    <div class="form-group">
-                        <label style="font-size: 1rem; margin-bottom: 15px; display: block;">
-                            Please upload screenshots of your:
-                        </label>
-                        <ul style="color: var(--text-muted); margin-left: 20px; margin-bottom: 20px; line-height: 1.8;">
-                            <li>5 main marches</li>
-                            <li>In-game legion count</li>
-                            <li>5 best pets</li>
-                        </ul>
-                        
-                        <div class="file-upload-container" id="dropZone">
-                            <div class="file-upload-icon">📁</div>
-                            <div class="file-upload-text">Click or drag files to this area to upload</div>
-                            <div class="file-upload-hint">You can upload up to 8 files (max 5MB each)</div>
-                            <input type="file" id="fileInput" class="file-input" multiple accept="image/*" max="8">
-                        </div>
-                        
-                        <div class="file-list" id="fileList"></div>
-                    </div>
+                <div class="info-box">
+                    <h3>📸 Screenshots</h3>
+                    <p><strong>After submitting this form,</strong> please send your screenshots to our Discord server:</p>
+                    <ul style="margin: 15px 0; padding-left: 20px; color: var(--text-muted);">
+                        <li>5 main marches</li>
+                        <li>In-game legion count</li>
+                        <li>5 best pets</li>
+                    </ul>
+                    <p>Send them in a DM to any of our leaders or in the #recruitment channel.</p>
                 </div>
 
                 <div class="form-navigation">
@@ -805,8 +749,21 @@
             <div class="success-icon">🍀</div>
             <h2>Application Submitted!</h2>
             <p>Thanks for joining LCKY! We'll review your application and contact you on Discord soon.</p>
-            <p style="font-size: 0.95rem;">Zero Skill, All Luck. Welcome to the family!</p>
-            <a href="/" class="btn btn-primary" style="margin-top: 20px; display: inline-block;">Back to Home</a>
+            
+            <div class="info-box" style="margin: 30px 0;">
+                <h3>📸 Next Step: Send Your Screenshots</h3>
+                <p>Please send your screenshots to our Discord server:</p>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li>5 main marches</li>
+                    <li>In-game legion count</li>
+                    <li>5 best pets</li>
+                </ul>
+            </div>
+            
+            <a href="https://discord.gg/lcky" target="_blank" class="discord-link">Join Our Discord →</a>
+            
+            <p style="margin-top: 30px; font-size: 0.95rem;">Zero Skill, All Luck. Welcome to the family!</p>
+            <a href="/" class="btn btn-secondary" style="margin-top: 20px; display: inline-block;">Back to Home</a>
         </div>
     </div>
 
@@ -819,9 +776,8 @@
         };
 
         let currentStep = 1;
-        const totalSteps = 6;
+        const totalSteps = 5;
         const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-        let uploadedFiles = [];
 
         function generateHoursGrid() {
             const grid = document.getElementById('hoursGrid');
@@ -842,68 +798,6 @@
                 }
                 grid.appendChild(column);
             });
-        }
-
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-        const fileList = document.getElementById('fileList');
-
-        dropZone.addEventListener('click', () => fileInput.click());
-        
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
-        
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragover');
-        });
-        
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            handleFiles(e.dataTransfer.files);
-        });
-        
-        fileInput.addEventListener('change', (e) => {
-            handleFiles(e.target.files);
-        });
-
-        function handleFiles(files) {
-            const newFiles = Array.from(files);
-            
-            if (uploadedFiles.length + newFiles.length > 8) {
-                showError('You can only upload up to 8 files total.');
-                return;
-            }
-            
-            newFiles.forEach(file => {
-                if (file.size > 5 * 1024 * 1024) {
-                    showError(`File "${file.name}" is too large. Max size is 5MB.`);
-                    return;
-                }
-                uploadedFiles.push(file);
-            });
-            
-            updateFileList();
-        }
-
-        function updateFileList() {
-            fileList.innerHTML = '';
-            uploadedFiles.forEach((file, index) => {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-                fileItem.innerHTML = `
-                    <span class="file-name">📄 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
-                    <span class="file-remove" onclick="removeFile(${index})">×</span>
-                `;
-                fileList.appendChild(fileItem);
-            });
-        }
-
-        function removeFile(index) {
-            uploadedFiles.splice(index, 1);
-            updateFileList();
         }
 
         function updateProgress() {
@@ -1004,7 +898,6 @@
             });
             data.hours = hours;
 
-            data.fileCount = uploadedFiles.length;
             data.submittedAt = new Date().toISOString();
             
             return data;
@@ -1029,7 +922,7 @@
 
         async function submitToDiscord(data) {
             const embed = {
-                title: "🍀 New LCKY Recruitment Application",
+                title: " New LCKY Recruitment Application",
                 color: 0x00ff88,
                 fields: [
                     { name: "Lord Name", value: data.lordName, inline: true },
@@ -1042,11 +935,12 @@
                     { name: "Units Killed", value: data.unitsKilled || 'N/A', inline: true },
                     { name: "Hours/Day", value: data.hoursPlayed || 'N/A', inline: true },
                     { name: "Faction", value: data.faction || 'N/A', inline: true },
-                    { name: "Screenshots", value: `${data.fileCount || 0} files uploaded`, inline: true }
+                    { name: "Infantry", value: data.infantry || 'N/A', inline: true },
+                    { name: "Mages", value: data.mages || 'N/A', inline: true }
                 ],
                 timestamp: new Date().toISOString(),
                 footer: {
-                    text: "LCKY Recruitment System"
+                    text: "LCKY Recruitment System - Screenshots will be sent via Discord DM"
                 }
             };
 
@@ -1077,12 +971,15 @@
             const formData = collectFormData();
             
             try {
+                // Submit to Google Sheets
                 await submitToGoogleSheets(formData);
                 
+                // Submit to Discord
                 if (CONFIG.USE_DISCORD_WEBHOOK) {
                     await submitToDiscord(formData);
                 }
                 
+                // Show success
                 form.style.display = 'none';
                 document.querySelector('.progress-container').style.display = 'none';
                 loading.classList.remove('active');
