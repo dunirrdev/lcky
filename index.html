@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LCKY | Zero Skill All Luck</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,6 +22,14 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-dark); 
+            color: var(--text-main); 
+            line-height: 1.6; 
+            overflow-x: hidden; 
+        }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
 
@@ -31,6 +39,7 @@
             display: inline-block; padding: 14px 32px; border-radius: 8px;
             font-weight: 600; font-size: 1rem; cursor: pointer;
             transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
+            text-align: center;
         }
         .btn-primary {
             background: var(--gradient); color: #050a07; border: none;
@@ -49,40 +58,44 @@
             margin-bottom: 1rem; background: var(--gradient);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 3rem; font-size: 1.1rem; }
+        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 3rem; font-size: 1.1rem; padding: 0 10px; }
 
         /* --- NAVBAR --- */
         header {
-            position: fixed; top: 0; width: 100%; background: rgba(5, 10, 7, 0.9);
+            position: fixed; top: 0; width: 100%; background: rgba(5, 10, 7, 0.95);
             backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid rgba(0, 255, 136, 0.1);
         }
-        nav { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 80px; position: relative; }
         .logo { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--text-main); letter-spacing: 2px; }
         .logo span { color: var(--primary); }
-        .nav-links { display: flex; gap: 2rem; }
+        
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
         .nav-links a { color: var(--text-muted); font-weight: 600; font-size: 0.95rem; }
         .nav-links a:hover { color: var(--primary); text-shadow: 0 0 8px rgba(0, 255, 136, 0.5); }
 
+        .mobile-menu-btn {
+            display: none; background: none; border: none; color: var(--primary);
+            font-size: 1.8rem; cursor: pointer; z-index: 1001;
+        }
+
         /* --- HERO SECTION WITH MATRIX --- */
         .hero {
-            height: 100vh; display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
             text-align: center; position: relative; overflow: hidden;
-            background-color: var(--bg-dark);
+            background-color: var(--bg-dark); padding: 100px 20px 60px;
         }
         
         #matrix-canvas {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; opacity: 0.4;
+            z-index: 0; opacity: 0.35;
         }
 
-        .hero-content {
-            position: relative; z-index: 1;
-        }
+        .hero-content { position: relative; z-index: 1; width: 100%; }
 
         .hero-content h1 {
             font-family: 'Orbitron', sans-serif; font-size: 4rem; line-height: 1.1;
             margin-bottom: 1.5rem; text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(5, 10, 7, 0.8);
+            text-shadow: 0 0 20px rgba(5, 10, 7, 0.9);
         }
         .hero-content h1 span {
             background: var(--gradient); -webkit-background-clip: text;
@@ -92,10 +105,10 @@
             font-size: 1.25rem; color: var(--text-muted); max-width: 600px;
             margin: 0 auto 2.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
-        .hero-buttons { display: flex; gap: 1rem; justify-content: center; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
         /* --- FEATURES SECTION --- */
-        .features { padding: 100px 0; }
+        .features { padding: 80px 0; }
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .feature-card {
             background: var(--bg-card); padding: 2.5rem; border-radius: 16px;
@@ -105,12 +118,12 @@
             transform: translateY(-10px); border-color: var(--primary);
             box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
         }
-        .feature-icon { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--primary); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1.5rem; }
         .feature-card h3 { font-family: 'Orbitron', sans-serif; margin-bottom: 1rem; font-size: 1.25rem; color: var(--text-main); }
         .feature-card p { color: var(--text-muted); font-size: 0.95rem; }
 
         /* --- MEMBERS SECTION --- */
-        .members { padding: 100px 0; background: #08120c; }
+        .members { padding: 80px 0; background: #08120c; }
         .members-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; }
         .member-card {
             background: var(--bg-card); border-radius: 16px; overflow: hidden;
@@ -122,23 +135,65 @@
             display: flex; align-items: center; justify-content: center; font-size: 4rem;
         }
         .member-info { padding: 1.5rem; }
-        .member-info h4 { font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem; color: var(--text-main); font-size: 1.1rem; }
+        .member-info h4 { font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem; color: var(--text-main); font-size: 1.1rem; word-break: break-word; }
         .member-role { color: var(--primary); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
         /* --- FOOTER --- */
         footer {
-            padding: 3rem 0; text-align: center; border-top: 1px solid rgba(0, 255, 136, 0.1);
+            padding: 3rem 20px; text-align: center; border-top: 1px solid rgba(0, 255, 136, 0.1);
             color: var(--text-muted); font-size: 0.9rem;
         }
         footer span { color: var(--primary); font-weight: 600; }
 
-        /* --- RESPONSIVE --- */
+        /* =========================================
+           MOBILE OPTIMIZATION (MAX-WIDTH: 768PX)
+           ========================================= */
         @media (max-width: 768px) {
-            .hero-content h1 { font-size: 2.5rem; }
-            .hero-content h1 span { font-size: 3rem; }
-            .nav-links { display: none; }
-            .hero-buttons { flex-direction: column; }
-            .btn { width: 100%; text-align: center; }
+            .mobile-menu-btn { display: block; }
+            
+            /* Mobile Menu Dropdown */
+            .nav-links {
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: rgba(5, 10, 7, 0.98);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                gap: 1.5rem;
+                transform: translateY(-150%);
+                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+                pointer-events: none; /* Prevents clicking when hidden */
+            }
+            .nav-links.active {
+                transform: translateY(0);
+                pointer-events: all;
+            }
+            .nav-links .btn-primary {
+                margin-top: 10px;
+                width: 80%;
+            }
+
+            /* Hero Typography Scale */
+            .hero-content h1 { font-size: 2.2rem; }
+            .hero-content h1 span { font-size: 2.8rem; }
+            .hero-content p { font-size: 1rem; padding: 0 10px; }
+            
+            /* Buttons stack on mobile */
+            .hero-buttons { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto; }
+            .hero-buttons .btn { width: 100%; }
+
+            /* Grids become single column */
+            .features-grid, .members-grid { grid-template-columns: 1fr; padding: 0 10px; }
+            .section-title { font-size: 2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 1.8rem; }
+            .hero-content h1 span { font-size: 2.2rem; }
+            .logo { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -149,14 +204,15 @@
         <div class="container">
             <nav>
                 <a href="#" class="logo">LCKY<span>.GG</span></a>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#features">About</a></li>
-                    <li><a href="#members">Staff</a></li>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
+                
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home" class="mobile-link">Home</a></li>
+                    <li><a href="#features" class="mobile-link">About</a></li>
+                    <li><a href="#members" class="mobile-link">Staff</a></li>
+                    <li><a href="https://discord.gg/lcky" target="_blank" class="btn btn-primary mobile-link">Join Discord</a></li>
                 </ul>
-                <a href="https://discord.gg/seulink" target="_blank" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.9rem;">
-                    Join Discord
-                </a>
             </nav>
         </div>
     </header>
@@ -168,7 +224,7 @@
             <h1>Zero Skill.<br><span>All Luck.</span></h1>
             <p>Welcome to <strong>LCKY</strong>. The community where luck meets chaos. No pressure, just vibes, gaming, and a whole lot of luck (or lack thereof).</p>
             <div class="hero-buttons">
-                <a href="https://discord.gg/seulink" class="btn btn-primary">🍀 Join Discord</a>
+                <a href="https://discord.gg/lcky" target="_blank" class="btn btn-primary">🍀 Join Discord</a>
                 <a href="#features" class="btn btn-outline">Discover the Community</a>
             </div>
         </div>
@@ -220,7 +276,7 @@
                     <div class="member-avatar">🎯</div>
                     <div class="member-info">
                         <h4>ClintEastWall</h4>
-                        <span class="member-role">Administrator</span>
+                        <span class="member-role">Co-Founder</span>
                     </div>
                 </div>
                 <!-- Leader 3 -->
@@ -228,7 +284,7 @@
                     <div class="member-avatar">🐉</div>
                     <div class="member-info">
                         <h4>Dragon Queen</h4>
-                        <span class="member-role">Co-Founder</span>
+                        <span class="member-role">The Queen</span>
                     </div>
                 </div>
             </div>
@@ -243,30 +299,66 @@
         </div>
     </footer>
 
-    <!-- MATRIX EFFECT SCRIPT -->
+    <!-- SCRIPTS -->
     <script>
+        // --- MOBILE MENU TOGGLE ---
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Close menu when a link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
+
+        // --- MATRIX EFFECT ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            // Recalculate columns on resize
+            const newColumns = canvas.width / fontSize;
+            // Preserve existing drops if possible, or reset
+            if (newColumns > drops.length) {
+                for (let x = drops.length; x < newColumns; x++) {
+                    drops[x] = Math.random() * (canvas.height / fontSize);
+                }
+            }
         }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
+        
+        const fontSize = 16;
         const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
         const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const nums = '0123456789';
         const alphabet = katakana + latin + nums;
-
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = [];
-
-        for (let x = 0; x < columns; x++) {
-            drops[x] = 1;
+        
+        let drops = [];
+        
+        function initDrops() {
+            const columns = canvas.width / fontSize;
+            drops = [];
+            for (let x = 0; x < columns; x++) {
+                drops[x] = Math.random() * (canvas.height / fontSize); // Start at random heights for natural look
+            }
         }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initDrops();
+        });
+        
+        resizeCanvas();
+        initDrops();
 
         const draw = () => {
             ctx.fillStyle = 'rgba(5, 10, 7, 0.05)';
