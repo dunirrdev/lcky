@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Calculator | LCKY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050a07;
+            --bg-card: #0d1f15;
+            --primary: #00ff88;
+            --secondary: #00cc6a;
+            --text-main: #ffffff;
+            --text-muted: #a0bfb0;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: rgba(5, 10, 7, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+        .logo span { color: var(--primary); }
+
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--primary); }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .page-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 768px) {
+            .calculator-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+
+        .calc-card {
+            background: var(--bg-card);
+            border: 2px solid rgba(0, 255, 136, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+        }
+        .calc-card h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(5, 10, 7, 0.6);
+            border: 2px solid rgba(0, 255, 136, 0.2);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+        }
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+        }
+
+        .time-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        .time-inputs input {
+            text-align: center;
+        }
+
+        .results-card {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), rgba(0, 204, 106, 0.02));
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            position: sticky;
+            top: 100px;
+        }
+        .total-troops {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+            margin: 10px 0;
+        }
+        .total-label {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+        }
+        .resource-item {
+            background: rgba(5, 10, 7, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        .resource-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+        .resource-name {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .note {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 { font-size: 1.8rem; }
+            .total-troops { font-size: 2.5rem; }
+            .time-inputs { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">LCKY<span>.GG</span></a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="members.html">Members</a>
+                <a href="leaderboard.html">Leaderboard</a>
+                <a href="migration.html">Migration</a>
+                <a href="training-calculator.html" style="color: var(--primary);">Calculator</a>
+                <a href="apply.html">Apply</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>⚔️ Training Calculator</h1>
+            <p>Calculate how many troops you can train and the resources required.</p>
+        </div>
+
+        <div class="calculator-grid">
+            <!-- Inputs -->
+            <div class="calc-card">
+                <h2>⚙️ Parameters</h2>
+                
+                <div class="form-group">
+                    <label>Troop Tier</label>
+                    <select id="tier" onchange="calculate()">
+                        <option value="T3">Tier 3 (T3)</option>
+                        <option value="T4" selected>Tier 4 (T4)</option>
+                        <option value="T5">Tier 5 (T5)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Troop Type</label>
+                    <select id="troopType" onchange="calculate()">
+                        <option value="Infantry">Infantry</option>
+                        <option value="Mages">Mages</option>
+                        <option value="Archers">Archers</option>
+                        <option value="Cavalry">Cavalry</option>
+                        <option value="Fliers">Fliers</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Available Training Time</label>
+                    <div class="time-inputs">
+                        <div>
+                            <input type="number" id="days" value="1" min="0" oninput="calculate()">
+                            <div style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Days</div>
+                        </div>
+                        <div>
+                            <input type="number" id="hours" value="0" min="0" max="23" oninput="calculate()">
+                            <div style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Hours</div>
+                        </div>
+                        <div>
+                            <input type="number" id="minutes" value="0" min="0" max="59" oninput="calculate()">
+                            <div style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Minutes</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Training Speed Bonus (%)</label>
+                    <input type="number" id="speedBonus" value="0" min="0" oninput="calculate()" placeholder="e.g., 50 for 50%">
+                </div>
+
+                <div class="form-group">
+                    <label>Active Event Bonus</label>
+                    <select id="eventBonus" onchange="calculate()">
+                        <option value="0">None (x1)</option>
+                        <option value="100">MGE Day 1 (100% extra)</option>
+                        <option value="200">MGE Day 5 (200% extra)</option>
+                        <option value="50">Great Height / Other (50% extra)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="results-card">
+                <div class="total-label">Total Troops Trained</div>
+                <div class="total-troops" id="totalTroops">0</div>
+                
+                <div class="resources-grid">
+                    <div class="resource-item">
+                        <div class="resource-value" id="resGold">0</div>
+                        <div class="resource-name">Gold</div>
+                    </div>
+                    <div class="resource-item">
+                        <div class="resource-value" id="resWood">0</div>
+                        <div class="resource-name">Wood</div>
+                    </div>
+                    <div class="resource-item">
+                        <div class="resource-value" id="resOre">0</div>
+                        <div class="resource-name">Ore</div>
+                    </div>
+                    <div class="resource-item">
+                        <div class="resource-value" id="resWater">0</div>
+                        <div class="resource-name">Water</div>
+                    </div>
+                </div>
+
+                <p class="note">* Resource costs and base times are approximate. Adjust values in the code if game updates change them.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base training time in SECONDS per 1 troop (Approximate CoD values)
+        // You can tweak these numbers if the game updates!
+        const baseTimes = {
+            'T3': { 'Infantry': 1.5, 'Mages': 1.8, 'Archers': 1.6, 'Cavalry': 2.0, 'Fliers': 2.5 },
+            'T4': { 'Infantry': 3.0, 'Mages': 3.5, 'Archers': 3.2, 'Cavalry': 4.0, 'Fliers': 5.0 },
+            'T5': { 'Infantry': 6.0, 'Mages': 7.0, 'Archers': 6.5, 'Cavalry': 8.0, 'Fliers': 10.0 }
+        };
+
+        // Resource cost per 1,000 troops (Approximate)
+        const resourceCosts = {
+            'T3': 50000,
+            'T4': 200000,
+            'T5': 500000
+        };
+
+        function formatNumber(num) {
+            return Math.floor(num).toLocaleString('en-US');
+        }
+
+        function calculate() {
+            // Get inputs
+            const tier = document.getElementById('tier').value;
+            const type = document.getElementById('troopType').value;
+            const days = parseInt(document.getElementById('days').value) || 0;
+            const hours = parseInt(document.getElementById('hours').value) || 0;
+            const minutes = parseInt(document.getElementById('minutes').value) || 0;
+            const speedBonus = parseInt(document.getElementById('speedBonus').value) || 0;
+            const eventBonus = parseInt(document.getElementById('eventBonus').value) || 0;
+
+            // Calculate total time in seconds
+            const totalSeconds = (days * 86400) + (hours * 3600) + (minutes * 60);
+
+            // Calculate multipliers
+            const speedMultiplier = 1 + (speedBonus / 100);
+            const eventMultiplier = 1 + (eventBonus / 100);
+            
+            // Effective time (time is reduced by speed, meaning you train MORE troops in the same time)
+            const effectiveSeconds = totalSeconds * speedMultiplier * eventMultiplier;
+
+            // Get base time per troop
+            const baseTimePerTroop = baseTimes[tier][type];
+
+            // Calculate total troops
+            const totalTroops = Math.floor(effectiveSeconds / baseTimePerTroop);
+
+            // Calculate resources (cost per 1k troops)
+            const costPer1k = resourceCosts[tier];
+            const totalResources = (totalTroops / 1000) * costPer1k;
+
+            // Update UI
+            document.getElementById('totalTroops').textContent = formatNumber(totalTroops);
+            document.getElementById('resGold').textContent = formatNumber(totalResources);
+            document.getElementById('resWood').textContent = formatNumber(totalResources);
+            document.getElementById('resOre').textContent = formatNumber(totalResources);
+            document.getElementById('resWater').textContent = formatNumber(totalResources);
+        }
+
+        // Initial calculation on load
+        calculate();
+    </script>
+</body>
+</html>
