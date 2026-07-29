@@ -63,7 +63,7 @@
         .nav-links a:hover { color: var(--primary); }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 60px 20px;
         }
@@ -90,7 +90,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 30px;
         }
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .calculator-grid { grid-template-columns: 1fr; }
             .nav-links { display: none; }
         }
@@ -154,23 +154,44 @@
             border: 2px solid var(--primary);
             border-radius: 16px;
             padding: 30px;
-            text-align: center;
             position: sticky;
             top: 100px;
         }
-        .total-troops {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: var(--primary);
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
-            margin: 10px 0;
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
-        .total-label {
-            color: var(--text-muted);
-            font-size: 1.1rem;
+        .results-table th {
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            padding: 12px;
+            border-bottom: 2px solid var(--primary);
+            text-align: center;
+        }
+        .results-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            text-align: center;
+        }
+        .results-table tr:last-child td {
+            border-bottom: none;
+        }
+        .tier-label {
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .troop-count {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .points {
+            color: var(--text-muted);
+            font-size: 0.95rem;
         }
 
         .resources-grid {
@@ -179,17 +200,18 @@
             gap: 15px;
             margin-top: 30px;
             padding-top: 30px;
-            border-top: 1px solid rgba(0, 255, 136, 0.2);
+            border-top: 2px solid var(--primary);
         }
         .resource-item {
             background: rgba(5, 10, 7, 0.6);
             padding: 15px;
             border-radius: 10px;
             border: 1px solid rgba(0, 255, 136, 0.1);
+            text-align: center;
         }
         .resource-value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--text-main);
             font-weight: 700;
         }
@@ -204,12 +226,13 @@
             font-size: 0.8rem;
             color: var(--text-muted);
             font-style: italic;
+            text-align: center;
         }
 
         @media (max-width: 480px) {
             .page-header h1 { font-size: 1.8rem; }
-            .total-troops { font-size: 2.5rem; }
             .time-inputs { grid-template-columns: 1fr; }
+            .results-table th, .results-table td { padding: 8px; font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -231,39 +254,19 @@
     <div class="container">
         <div class="page-header">
             <h1>⚔️ Training Calculator</h1>
-            <p>Calculate how many troops you can train and the resources required.</p>
+            <p>Calculate troops you can train and resources needed based on training speedups.</p>
         </div>
 
         <div class="calculator-grid">
             <!-- Inputs -->
             <div class="calc-card">
-                <h2>⚙️ Parameters</h2>
+                <h2>️ Parameters</h2>
                 
-                <div class="form-group">
-                    <label>Troop Tier</label>
-                    <select id="tier" onchange="calculate()">
-                        <option value="T3">Tier 3 (T3)</option>
-                        <option value="T4" selected>Tier 4 (T4)</option>
-                        <option value="T5">Tier 5 (T5)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Troop Type</label>
-                    <select id="troopType" onchange="calculate()">
-                        <option value="Infantry">Infantry</option>
-                        <option value="Mages">Mages</option>
-                        <option value="Archers">Archers</option>
-                        <option value="Cavalry">Cavalry</option>
-                        <option value="Fliers">Fliers</option>
-                    </select>
-                </div>
-
                 <div class="form-group">
                     <label>Available Training Time</label>
                     <div class="time-inputs">
                         <div>
-                            <input type="number" id="days" value="1" min="0" oninput="calculate()">
+                            <input type="number" id="days" value="250" min="0" oninput="calculate()">
                             <div style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Days</div>
                         </div>
                         <div>
@@ -286,8 +289,8 @@
                     <label>Active Event Bonus</label>
                     <select id="eventBonus" onchange="calculate()">
                         <option value="0">None (x1)</option>
-                        <option value="100">MGE Day 1 (100% extra)</option>
-                        <option value="200">MGE Day 5 (200% extra)</option>
+                        <option value="100">MGE Day 1 (100% extra troops)</option>
+                        <option value="200">MGE Day 5 (200% extra troops)</option>
                         <option value="50">Great Height / Other (50% extra)</option>
                     </select>
                 </div>
@@ -295,47 +298,92 @@
 
             <!-- Results -->
             <div class="results-card">
-                <div class="total-label">Total Troops Trained</div>
-                <div class="total-troops" id="totalTroops">0</div>
+                <h2 style="font-family: 'Orbitron', sans-serif; color: var(--primary); margin-bottom: 20px; text-align: center;"> Results</h2>
                 
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Tier</th>
+                            <th>Troops</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="tier-label" style="color: #8B9DC3;">T3</td>
+                            <td class="troop-count" id="t3Troops">0</td>
+                            <td class="points" id="t3Points">0</td>
+                        </tr>
+                        <tr>
+                            <td class="tier-label" style="color: #9B59B6;">T4</td>
+                            <td class="troop-count" id="t4Troops">0</td>
+                            <td class="points" id="t4Points">0</td>
+                        </tr>
+                        <tr>
+                            <td class="tier-label" style="color: #F1C40F;">T5</td>
+                            <td class="troop-count" id="t5Troops">0</td>
+                            <td class="points" id="t5Points">0</td>
+                        </tr>
+                        <tr>
+                            <td class="tier-label" style="color: #E67E22;">T3 → T4</td>
+                            <td class="troop-count" id="t3t4Troops">0</td>
+                            <td class="points" id="t3t4Points">0</td>
+                        </tr>
+                        <tr>
+                            <td class="tier-label" style="color: #E74C3C;">T4 → T5</td>
+                            <td class="troop-count" id="t4t5Troops">0</td>
+                            <td class="points" id="t4t5Points">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+
                 <div class="resources-grid">
                     <div class="resource-item">
                         <div class="resource-value" id="resGold">0</div>
-                        <div class="resource-name">Gold</div>
+                        <div class="resource-name"> Gold</div>
                     </div>
                     <div class="resource-item">
                         <div class="resource-value" id="resWood">0</div>
-                        <div class="resource-name">Wood</div>
+                        <div class="resource-name"> Wood</div>
                     </div>
                     <div class="resource-item">
                         <div class="resource-value" id="resOre">0</div>
-                        <div class="resource-name">Ore</div>
+                        <div class="resource-name">⛏️ Ore</div>
                     </div>
                     <div class="resource-item">
                         <div class="resource-value" id="resWater">0</div>
-                        <div class="resource-name">Water</div>
+                        <div class="resource-name">💧 Water</div>
                     </div>
                 </div>
 
-                <p class="note">* Resource costs and base times are approximate. Adjust values in the code if game updates change them.</p>
+                <p class="note">* Based on actual Call of Dragons training times and costs</p>
             </div>
         </div>
     </div>
 
     <script>
-        // Base training time in SECONDS per 1 troop (Approximate CoD values)
-        // You can tweak these numbers if the game updates!
-        const baseTimes = {
-            'T3': { 'Infantry': 1.5, 'Mages': 1.8, 'Archers': 1.6, 'Cavalry': 2.0, 'Fliers': 2.5 },
-            'T4': { 'Infantry': 3.0, 'Mages': 3.5, 'Archers': 3.2, 'Cavalry': 4.0, 'Fliers': 5.0 },
-            'T5': { 'Infantry': 6.0, 'Mages': 7.0, 'Archers': 6.5, 'Cavalry': 8.0, 'Fliers': 10.0 }
+        // ACCURATE Call of Dragons Data
+        // Training time per 1,000 troops (in seconds)
+        const trainingTimes = {
+            'T3': 60,    // 1 minute per 1k troops
+            'T4': 120,   // 2 minutes per 1k troops
+            'T5': 240    // 4 minutes per 1k troops
         };
 
-        // Resource cost per 1,000 troops (Approximate)
+        // Points per troop (for training score)
+        const pointsPerTroop = {
+            'T3': 20,
+            'T4': 40,
+            'T5': 100,
+            'T3toT4': 20,  // Points from upgrading T3 to T4
+            'T4toT5': 60   // Points from upgrading T4 to T5
+        };
+
+        // Resource cost per 1,000 troops
         const resourceCosts = {
-            'T3': 50000,
-            'T4': 200000,
-            'T5': 500000
+            'T3': 20000,
+            'T4': 74000,
+            'T5': 277000
         };
 
         function formatNumber(num) {
@@ -344,8 +392,6 @@
 
         function calculate() {
             // Get inputs
-            const tier = document.getElementById('tier').value;
-            const type = document.getElementById('troopType').value;
             const days = parseInt(document.getElementById('days').value) || 0;
             const hours = parseInt(document.getElementById('hours').value) || 0;
             const minutes = parseInt(document.getElementById('minutes').value) || 0;
@@ -356,28 +402,69 @@
             const totalSeconds = (days * 86400) + (hours * 3600) + (minutes * 60);
 
             // Calculate multipliers
+            // Speed bonus reduces training time, meaning MORE troops in same time
             const speedMultiplier = 1 + (speedBonus / 100);
+            // Event bonus adds extra troops
             const eventMultiplier = 1 + (eventBonus / 100);
             
-            // Effective time (time is reduced by speed, meaning you train MORE troops in the same time)
-            const effectiveSeconds = totalSeconds * speedMultiplier * eventMultiplier;
+            // Effective training time (speed makes training faster)
+            const effectiveSeconds = totalSeconds * speedMultiplier;
 
-            // Get base time per troop
-            const baseTimePerTroop = baseTimes[tier][type];
+            // Calculate troops for each tier
+            const tiers = ['T3', 'T4', 'T5'];
+            const results = {};
 
-            // Calculate total troops
-            const totalTroops = Math.floor(effectiveSeconds / baseTimePerTroop);
+            tiers.forEach(tier => {
+                const baseTroops = Math.floor(effectiveSeconds / trainingTimes[tier]) * 1000;
+                const troopsWithEvent = Math.floor(baseTroops * eventMultiplier);
+                const points = troopsWithEvent * pointsPerTroop[tier];
+                const resources = (troopsWithEvent / 1000) * resourceCosts[tier];
 
-            // Calculate resources (cost per 1k troops)
-            const costPer1k = resourceCosts[tier];
-            const totalResources = (totalTroops / 1000) * costPer1k;
+                results[tier] = {
+                    troops: troopsWithEvent,
+                    points: points,
+                    resources: resources
+                };
+            });
+
+            // Calculate upgrade troops (T3→T4 and T4→T5)
+            // When upgrading, you train T4 troops from T3, so it's faster
+            const t3to4Troops = Math.floor((effectiveSeconds / (trainingTimes['T4'] * 0.5)) * 1000 * eventMultiplier);
+            const t4to5Troops = Math.floor((effectiveSeconds / (trainingTimes['T5'] * 0.5)) * 1000 * eventMultiplier);
+
+            results['T3toT4'] = {
+                troops: t3to4Troops,
+                points: t3to4Troops * pointsPerTroop['T3toT4'],
+                resources: (t3to4Troops / 1000) * resourceCosts['T4']
+            };
+
+            results['T4toT5'] = {
+                troops: t4to5Troops,
+                points: t4to5Troops * pointsPerTroop['T4toT5'],
+                resources: (t4to5Troops / 1000) * resourceCosts['T5']
+            };
 
             // Update UI
-            document.getElementById('totalTroops').textContent = formatNumber(totalTroops);
-            document.getElementById('resGold').textContent = formatNumber(totalResources);
-            document.getElementById('resWood').textContent = formatNumber(totalResources);
-            document.getElementById('resOre').textContent = formatNumber(totalResources);
-            document.getElementById('resWater').textContent = formatNumber(totalResources);
+            document.getElementById('t3Troops').textContent = formatNumber(results['T3'].troops);
+            document.getElementById('t3Points').textContent = formatNumber(results['T3'].points);
+            
+            document.getElementById('t4Troops').textContent = formatNumber(results['T4'].troops);
+            document.getElementById('t4Points').textContent = formatNumber(results['T4'].points);
+            
+            document.getElementById('t5Troops').textContent = formatNumber(results['T5'].troops);
+            document.getElementById('t5Points').textContent = formatNumber(results['T5'].points);
+            
+            document.getElementById('t3t4Troops').textContent = formatNumber(results['T3toT4'].troops);
+            document.getElementById('t3t4Points').textContent = formatNumber(results['T3toT4'].points);
+            
+            document.getElementById('t4t5Troops').textContent = formatNumber(results['T4toT5'].troops);
+            document.getElementById('t4t5Points').textContent = formatNumber(results['T4toT5'].points);
+
+            // Show T5 resources as main resource cost
+            document.getElementById('resGold').textContent = formatNumber(results['T5'].resources);
+            document.getElementById('resWood').textContent = formatNumber(results['T5'].resources);
+            document.getElementById('resOre').textContent = formatNumber(results['T5'].resources);
+            document.getElementById('resWater').textContent = formatNumber(results['T5'].resources);
         }
 
         // Initial calculation on load
