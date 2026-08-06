@@ -98,8 +98,8 @@
 
         .section-title {
             font-family: 'Orbitron', sans-serif;
-            color: var(--primary);
             font-size: 1.5rem;
+            color: var(--primary);
             margin-bottom: 25px;
         }
 
@@ -137,7 +137,7 @@
             border-radius: 10px;
             color: var(--text-main);
             font-size: 1rem;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             font-family: 'Inter', sans-serif;
         }
         .form-group input:focus,
@@ -221,11 +221,6 @@
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 255, 136, 0.5);
         }
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
 
         .info-box {
             background: rgba(0, 255, 136, 0.1);
@@ -241,26 +236,6 @@
         .info-box ul {
             margin-left: 20px;
             color: var(--text-muted);
-        }
-
-        .status-message {
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            text-align: center;
-            display: none;
-        }
-        .status-message.success {
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            display: block;
-        }
-        .status-message.error {
-            background: rgba(255, 68, 68, 0.1);
-            border: 1px solid var(--error);
-            color: var(--error);
-            display: block;
         }
 
         @media (max-width: 768px) {
@@ -286,7 +261,15 @@
         </div>
 
         <div class="form-container">
-            <form id="applicationForm">
+            <!-- FORMSUBMIT.CO FORM -->
+            <form action="https://formsubmit.co/dunirrcod@gmail.com" method="POST" enctype="multipart/form-data">
+                
+                <!-- Configurações FormSubmit -->
+                <input type="hidden" name="_subject" value=" New LCKY Application">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://dunirrdev.github.io/lcky/success.html">
+
                 <!-- Seção 1: Account Info -->
                 <div class="form-section">
                     <h2 class="section-title">👤 Account Information</h2>
@@ -412,7 +395,7 @@
 
                 <!-- Seção 5: Army -->
                 <div class="form-section">
-                    <h2 class="section-title">⚔️ Army Composition</h2>
+                    <h2 class="section-title">️ Army Composition</h2>
                     
                     <div class="form-group">
                         <label>Faction <span class="required">*</span></label>
@@ -469,7 +452,7 @@
                         <div style="font-size: 3rem; margin-bottom: 15px;">📁</div>
                         <div style="color: var(--text-muted); margin-bottom: 10px;">Click to upload files</div>
                         <div style="font-size: 0.85rem; color: var(--text-muted);">Up to 8 files (max 10MB each)</div>
-                        <input type="file" id="fileInput" class="file-input" multiple accept="image/*">
+                        <input type="file" id="fileInput" name="attachment" class="file-input" multiple accept="image/*" required>
                     </div>
                     <div id="fileList" style="margin-top: 15px;"></div>
                 </div>
@@ -482,23 +465,15 @@
                     </div>
                 </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">🍀 Submit Application</button>
-                <div id="statusMessage" class="status-message"></div>
+                <button type="submit" class="submit-btn">🍀 Submit Application</button>
             </form>
         </div>
     </div>
 
     <script>
-        // Web3Forms Access Key - NOVA CHAVE
-        const ACCESS_KEY = '651ed909-8555-49ac-97e5-c8345639ff3f';
-
-        const form = document.getElementById('applicationForm');
         const fileInput = document.getElementById('fileInput');
         const fileList = document.getElementById('fileList');
-        const submitBtn = document.getElementById('submitBtn');
-        const statusMessage = document.getElementById('statusMessage');
 
-        // File upload display
         fileInput.addEventListener('change', function() {
             fileList.innerHTML = '';
             Array.from(this.files).forEach(file => {
@@ -507,46 +482,6 @@
                 div.textContent = `📄 ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
                 fileList.appendChild(div);
             });
-        });
-
-        // Form submission
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-            statusMessage.className = 'status-message';
-            
-            const formData = new FormData(form);
-            formData.append('access_key', ACCESS_KEY);
-            formData.append('subject', '🍀 New LCKY Recruitment Application');
-            
-            try {
-                const response = await fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    statusMessage.textContent = '✅ Application submitted successfully! We\'ll contact you on Discord soon.';
-                    statusMessage.className = 'status-message success';
-                    form.reset();
-                    fileList.innerHTML = '';
-                    
-                    setTimeout(() => {
-                        window.location.href = 'success.html';
-                    }, 3000);
-                } else {
-                    throw new Error(result.message || 'Submission failed');
-                }
-            } catch (error) {
-                statusMessage.textContent = '❌ Error: ' + error.message;
-                statusMessage.className = 'status-message error';
-                submitBtn.disabled = false;
-                submitBtn.textContent = '🍀 Submit Application';
-            }
         });
     </script>
 </body>
